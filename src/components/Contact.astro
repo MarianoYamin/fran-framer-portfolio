@@ -1,0 +1,131 @@
+---
+/**
+ * @archivo    Contact.astro
+ * @modulo     Sección Contacto / Footer
+ * @descripcion Eyebrow con guión animado, H2 gigante en 2 líneas
+ *              ("Hagamos algo / en silencio."), grid de contacto
+ *              en 3 columnas (directo, en la red, estudio),
+ *              footer con copy + reloj de Madrid en vivo,
+ *              y "fran." ghost gigante de fondo decorativo.
+ * @actualizado 2026-05-13
+ */
+import { CONTACT } from "../data/site";
+---
+
+<section
+  id="contact"
+  class="px-6 lg:px-12 pt-28 pb-10 border-t border-white/10 relative overflow-hidden"
+>
+  <!-- Eyebrow con línea horizontal que crece de 0 a 100% -->
+  <div
+    class="reveal min-reveal font-mono text-[11px] tracking-[0.3em] uppercase text-slate-400 mb-10 flex items-center gap-3"
+  >
+    <span class="line-grow inline-block w-8 h-px bg-slate-500"></span>
+    Hablemos — Reservas para finales de 2026
+  </div>
+
+  <!-- H2 gigante: 2 líneas que aparecen con fade-up sutil (no letra-por-letra) -->
+  <h2
+    class="font-serif tracking-[-0.025em] leading-[0.92] text-[clamp(60px,14vw,240px)]"
+  >
+    <span class="reveal min-reveal block" style="animation-delay: 0.05s;">
+      Hagamos algo
+    </span>
+    <span
+      class="reveal min-reveal block italic text-slate-300"
+      style="animation-delay: 0.25s;"
+    >
+      en silencio.
+    </span>
+  </h2>
+
+  <!-- Grid 12-col con 3 bloques de información de contacto -->
+  <div class="mt-16 grid grid-cols-12 gap-6 border-t border-white/10 pt-10">
+    <!-- Directo: email + teléfono -->
+    <div class="col-span-12 md:col-span-4 space-y-4">
+      <div
+        class="font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500"
+      >
+        Directo
+      </div>
+      <a
+        href={`mailto:${CONTACT.email}`}
+        data-cursor="link"
+        class="block font-serif text-3xl md:text-4xl link-underline w-fit"
+      >
+        {CONTACT.email}
+      </a>
+      <a
+        href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
+        data-cursor="link"
+        class="block font-mono text-[12px] tracking-[0.18em] uppercase text-slate-300 link-underline w-fit"
+      >
+        {CONTACT.phone}
+      </a>
+    </div>
+
+    <!-- En la red: lista de redes sociales -->
+    <div class="col-span-12 md:col-span-4 space-y-4">
+      <div
+        class="font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500"
+      >
+        En la red
+      </div>
+      <ul class="space-y-2 font-mono text-[12px] tracking-[0.18em] uppercase">
+        {
+          CONTACT.social.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener"
+                data-cursor="link"
+                class="text-slate-300 hover:text-white link-underline"
+              >
+                {s.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Estudio: dirección física -->
+    <div class="col-span-12 md:col-span-4 space-y-4">
+      <div
+        class="font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500"
+      >
+        Estudio
+      </div>
+      <p class="text-slate-300 text-[14px] leading-relaxed">
+        {CONTACT.studio.address1}<br />
+        {CONTACT.studio.address2}<br />
+        <span class="text-slate-500">{CONTACT.studio.note}</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer con copy + reloj en vivo + atribución -->
+  <div
+    class="mt-20 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between gap-4 font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500"
+  >
+    <div>© 2026 Fran. Todos los planos reservados.</div>
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+      ></span>
+      <span>Barcelona · </span>
+      <!-- El JS actualiza este span cada segundo con la hora de Madrid -->
+      <span id="live-clock">—</span>
+    </div>
+    <div>Site v4.2 — Diseñado en Resolve, hecho con cuidado</div>
+  </div>
+
+  <!-- Wordmark gigante decorativo de fondo (no clickeable, no leído por screen reader) -->
+  <div
+    aria-hidden="true"
+    class="select-none pointer-events-none absolute -bottom-10 left-0 right-0 text-center font-serif tracking-[-0.04em] leading-none text-white/[0.03] italic"
+    style="font-size: clamp(120px, 30vw, 520px);"
+  >
+    fran.
+  </div>
+</section>

@@ -1,0 +1,106 @@
+---
+/**
+ * @archivo    About.astro
+ * @modulo     Sección Sobre mí
+ * @descripcion Grid 12-col con portrait 4:5 (grayscale) a la izquierda
+ *              y contenido editorial a la derecha: eyebrow, frase serif grande,
+ *              estadísticas y 2 párrafos de bio.
+ * @actualizado 2026-05-13
+ */
+import { STATS } from "../data/site";
+---
+
+<section
+  id="about"
+  class="px-6 lg:px-12 py-28 lg:py-40 border-t border-white/10"
+>
+  <div class="grid grid-cols-12 gap-6 lg:gap-10">
+    <!-- Portrait con foto blanco y negro + meta tipo cinematografía -->
+    <div class="col-span-12 lg:col-span-5">
+      <div
+        class="reveal scale-in aspect-[4/5] overflow-hidden bg-[#111] relative"
+        style="animation-duration: 1.4s;"
+      >
+        <img
+          src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=80&auto=format&fit=crop"
+          alt="Retrato de Fran"
+          class="absolute inset-0 w-full h-full object-cover grayscale"
+        />
+        <!-- Gradiente que oscurece el bottom para que el meta-data se lea -->
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent"
+          aria-hidden="true"
+        >
+        </div>
+        <!-- Meta-data tipo "ficha técnica" abajo de la foto -->
+        <div
+          class="absolute bottom-5 left-5 right-5 flex items-end justify-between font-mono text-[10px] tracking-[0.22em] uppercase text-slate-300"
+        >
+          <div>Fran · 2026</div>
+          <div>35mm · Portra 400</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido editorial -->
+    <div class="col-span-12 lg:col-span-7 lg:pl-8">
+      <div
+        class="reveal fade-up font-mono text-[11px] tracking-[0.3em] uppercase text-slate-400 mb-6 flex items-center gap-3"
+        style="animation-duration: 0.7s;"
+      >
+        <span class="w-8 h-px bg-slate-500"></span> Perfil — Desde 2017
+      </div>
+
+      <!-- Frase manifiesto grande -->
+      <p
+        class="reveal fade-up font-serif text-3xl md:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.015em]"
+        style="animation-duration: 1s;"
+      >
+        Hago películas pequeñas y deliberadas.
+        <span class="text-slate-500">
+          Instinto documental, disciplina narrativa.
+        </span>
+        Trabajo desde <span class="italic">Barcelona</span>, viajando ligero.
+      </p>
+
+      <!-- Estadísticas en grid 4-col -->
+      <div
+        class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-white/10 pt-10"
+      >
+        {
+          STATS.map((s) => (
+            <div
+              class="reveal fade-up"
+              style="animation-duration: 0.7s;"
+            >
+              <div class="font-serif text-5xl md:text-6xl tracking-[-0.02em]">
+                {s.value}
+              </div>
+              <div class="font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500 mt-2">
+                {s.label}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Bio en 2 párrafos paralelos -->
+      <div
+        class="mt-12 grid grid-cols-12 gap-6 text-slate-300 text-[15px] leading-relaxed"
+      >
+        <p class="col-span-12 md:col-span-6">
+          Formado en documental, afilado en publicidad. Dirijo y filmo — a
+          menudo el mismo proyecto, casi siempre solo o con un equipo pequeño
+          de confianza. Mi trabajo tiende a la quietud, a la contención, y a
+          esa luz que solo aparece en la tercera toma.
+        </p>
+        <p class="col-span-12 md:col-span-6">
+          Disponible para cortometrajes, piezas de marca, videoclips y
+          editorial. Cómodo con ópticas anamórficas, sensores de gran formato,
+          y la paciencia silenciosa que exige esperar a que cambie el tiempo.
+          Reservando para finales de 2026.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

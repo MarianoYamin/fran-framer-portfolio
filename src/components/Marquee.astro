@@ -1,0 +1,31 @@
+---
+/**
+ * @archivo    Marquee.astro
+ * @modulo     Marquee de clientes
+ * @descripcion Banda horizontal de nombres de clientes en serif italic
+ *              que se desplaza infinitamente de derecha a izquierda.
+ *              Para crear el loop sin saltos, se duplica la lista y se
+ *              anima el track con translateX 0 → -50%.
+ * @actualizado 2026-05-13
+ */
+import { CLIENTS } from "../data/site";
+
+// Duplicamos la lista — la animación recorre -50% (la mitad de la pista)
+const items = [...CLIENTS, ...CLIENTS];
+---
+
+<section
+  class="border-y border-white/10 py-7 overflow-hidden"
+  aria-label="Clientes"
+>
+  <div class="marquee-track flex whitespace-nowrap will-change-transform">
+    {
+      items.map((c) => (
+        <div class="flex items-center gap-12 px-6 text-slate-400">
+          <span class="font-serif italic text-2xl md:text-3xl">{c}</span>
+          <span class="w-1 h-1 rounded-full bg-slate-600" />
+        </div>
+      ))
+    }
+  </div>
+</section>

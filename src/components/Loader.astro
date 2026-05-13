@@ -1,0 +1,33 @@
+---
+/**
+ * @archivo    Loader.astro
+ * @modulo     Loader de entrada
+ * @descripcion Pantalla negra de bienvenida con porcentaje y barra de progreso.
+ *              Hold 350ms al llegar a 100, luego se desliza hacia arriba.
+ *              La lógica vive en /src/scripts/main.ts (función initLoader).
+ * @actualizado 2026-05-13
+ */
+---
+
+<div
+  id="loader"
+  class="fixed inset-0 z-[200] bg-[#0A0A0A] flex items-end p-6 lg:p-12"
+  style="transform: translateY(0); transition: transform 1.1s cubic-bezier(.7,0,.2,1);"
+>
+  <div class="w-full">
+    <div
+      class="flex items-end justify-between font-mono text-[11px] tracking-[0.3em] uppercase text-slate-500 mb-4"
+    >
+      <span>Cargando — Fran · Reel 2025</span>
+      <span id="loader-pct" class="text-white">000</span>
+    </div>
+    <div class="w-full h-px bg-white/10 relative overflow-hidden">
+      <div
+        id="loader-bar"
+        class="absolute inset-y-0 left-0 bg-white"
+        style="width: 0%;"
+      >
+      </div>
+    </div>
+  </div>
+</div>

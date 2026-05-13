@@ -1,0 +1,63 @@
+---
+/**
+ * @archivo    Services.astro
+ * @modulo     Sección Servicios
+ * @descripcion Lista editorial de los 3 oficios (dirección, cinematografía,
+ *              postproducción) en formato grid 12-col con número, título serif,
+ *              descripción y bullets. Cada fila aparece con stagger al entrar.
+ * @actualizado 2026-05-13
+ */
+import { SERVICES } from "../data/site";
+---
+
+<section
+  id="services"
+  class="px-6 lg:px-12 py-28 lg:py-40 border-t border-white/10"
+>
+  <!-- Header: eyebrow corto en col-3 + H2 manifiesto en col-9 -->
+  <div class="grid grid-cols-12 gap-6 mb-16 lg:mb-24">
+    <div
+      class="reveal fade-up col-span-12 lg:col-span-3 font-mono text-[11px] tracking-[0.3em] uppercase text-slate-400 flex items-start gap-3"
+      style="animation-duration: 0.7s;"
+    >
+      <span class="w-8 h-px bg-slate-500 mt-2"></span> Lo que hago
+    </div>
+    <h2
+      class="reveal fade-up col-span-12 lg:col-span-9 font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-[-0.015em]"
+      style="animation-duration: 0.9s;"
+    >
+      Tres oficios <span class="italic text-slate-400">— una</span> sola mano paciente.
+      Dirección, cinematografía y postproducción — todo en casa, de principio a fin.
+    </h2>
+  </div>
+
+  <!-- Lista con divisores horizontales — cada item es una fila grid 12-col -->
+  <ul class="divide-y divide-white/10 border-y border-white/10">
+    {
+      SERVICES.map((s, i) => (
+        <li
+          class="reveal fade-up group grid grid-cols-12 gap-6 py-10 lg:py-14 items-start hover:bg-white/[0.02] transition-colors px-2 -mx-2"
+          style={`animation-delay: ${i * 0.08}s; animation-duration: 0.8s;`}
+        >
+          <div class="col-span-2 lg:col-span-1 font-mono text-[11px] tracking-[0.22em] text-slate-500 uppercase">
+            — {s.n}
+          </div>
+          <div class="col-span-10 lg:col-span-4 font-serif text-3xl md:text-5xl tracking-[-0.01em]">
+            {s.title}
+          </div>
+          <p class="col-span-12 lg:col-span-4 text-slate-300 text-[15px] leading-relaxed">
+            {s.body}
+          </p>
+          <ul class="col-span-12 lg:col-span-3 space-y-2">
+            {s.bullets.map((b) => (
+              <li class="font-mono text-[11px] tracking-[0.18em] uppercase text-slate-400 flex items-center gap-3">
+                <span class="w-1 h-1 rounded-full bg-slate-500" />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</section>

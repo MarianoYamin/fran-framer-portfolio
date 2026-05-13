@@ -1,0 +1,62 @@
+---
+/**
+ * @archivo    Nav.astro
+ * @modulo     Navbar fija
+ * @descripcion Píldora glass centrada arriba con logo + 4 enlaces ancla.
+ *              Añade sombra cuando scrollY > 40 (lo controla main.ts).
+ * @actualizado 2026-05-13
+ */
+import { SITE_META } from "../data/site";
+
+const items = [
+  { label: "Trabajo", href: "#work" },
+  { label: "Servicios", href: "#services" },
+  { label: "Sobre mí", href: "#about" },
+  { label: "Contacto", href: "#contact" },
+];
+
+// Separa "Fran" del sufijo "/ Framer" para aplicar estilos distintos
+const [brandMain, brandRest] = SITE_META.brand.split(" / ");
+---
+
+<nav
+  id="nav"
+  class="fixed top-5 left-1/2 -translate-x-1/2 z-50"
+  style="animation: navIn 0.9s cubic-bezier(.2,.7,.2,1) 0.4s both;"
+>
+  <div
+    class="glass rounded-full px-2 py-2 flex items-center gap-1 whitespace-nowrap transition-all duration-500"
+  >
+    <a
+      href="#top"
+      data-cursor="link"
+      class="px-4 py-2 text-[13px] tracking-[0.18em] uppercase font-medium flex items-center gap-2 shrink-0"
+    >
+      <span
+        class="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse"
+      ></span>
+      {brandMain}
+      <span
+        class="text-slate-500 font-mono normal-case tracking-normal text-[11px]"
+      >
+        / {brandRest}
+      </span>
+    </a>
+    <span class="w-px h-5 bg-white/10 mx-1 shrink-0"></span>
+    <ul class="flex items-center shrink-0">
+      {
+        items.map((it) => (
+          <li>
+            <a
+              href={it.href}
+              data-cursor="link"
+              class="px-4 py-2 text-[13px] text-slate-300 hover:text-white transition-colors whitespace-nowrap"
+            >
+              {it.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>

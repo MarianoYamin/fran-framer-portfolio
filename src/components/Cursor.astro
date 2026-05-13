@@ -1,0 +1,29 @@
+---
+/**
+ * @archivo    Cursor.astro
+ * @modulo     Cursor personalizado
+ * @descripcion Reemplaza el cursor nativo por un punto + anillo que reacciona
+ *              a elementos interactivos. Variantes: default, link, view, play.
+ *              Solo se activa en dispositivos con puntero fino (mouse).
+ *              La lógica vive en /src/scripts/main.ts (función initCursor).
+ * @actualizado 2026-05-13
+ */
+---
+
+<!-- Punto central que sigue el mouse sin lag (translate3d directo) -->
+<div
+  id="cursor-dot"
+  class="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-white pointer-events-none z-[100]"
+  style="mix-blend-mode: difference; transform: translate3d(-100px, -100px, 0) translate(-50%, -50%); transition: width .25s ease, height .25s ease, opacity .25s ease;"
+  aria-hidden="true"
+>
+</div>
+
+<!-- Anillo con lerp 0.18 para movimiento suave -->
+<div
+  id="cursor-ring"
+  class="fixed top-0 left-0 rounded-full pointer-events-none z-[99] flex items-center justify-center font-mono"
+  style="width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.6); transform: translate3d(-100px, -100px, 0) translate(-50%, -50%); transition: width .35s cubic-bezier(.2,.7,.2,1), height .35s cubic-bezier(.2,.7,.2,1), background .25s ease, color .25s ease, opacity .25s ease, border .25s ease; mix-blend-mode: difference; font-size: 11px; letter-spacing: .18em; color: #0A0A0A;"
+  aria-hidden="true"
+>
+</div>

@@ -1,0 +1,98 @@
+---
+/**
+ * @archivo    ProjectCard.astro
+ * @modulo     Card individual de proyecto
+ * @descripcion Card cinematográfica con poster + video hover-to-play +
+ *              tilt 3D al mover el mouse. Bordes cuadrados (sin radius)
+ *              para evocar un marco de cine. La lógica de tilt y hover-play
+ *              vive en /src/scripts/main.ts (función initProjectCards).
+ * @actualizado 2026-05-13
+ */
+import type { Project } from "../data/site";
+
+interface Props {
+  p: Project;
+  /** Índice dentro del grid (para escalonar el reveal en grupos de 3) */
+  index: number;
+  /** Total de proyectos — se usa para el indicador "01 / 07" */
+  total: number;
+}
+
+const { p, index, total } = Astro.props;
+
+// Stagger del reveal: 0, 0.08, 0.16, 0, 0.08, 0.16... (cada 3 reinicia)
+const revealDelay = (index % 3) * 0.08;
+---
+
+<a
+  href={p.href ?? "#"}
+  data-cursor="play"
+  class={`group project-card reveal fade-up relative block ${p.span}`}
+  style={`animation-delay: ${revealDelay}s; animation-duration: 0.9s;`}
+>
+  <!-- Wrapper que recibe el transform de tilt 3D -->
+  <div
+    class={`tilt-card relative overflow-hidden bg-[#111] ${p.ratio} w-full`}
+  >
+    <!-- Poster (imagen estática que se ve por defecto) -->
+    <img
+      src={p.img}
+      alt={`${p.title} — ${p.client}`}
+      loading="lazy"
+      class="poster-img absolute inset-0 w-full h-full object-cover"
+    />
+    <!-- Video que se reproduce solo en hover (preload="none" para no descargar hasta que toque) -->
+    <video
+      class="play-video absolute inset-0 w-full h-full object-cover"
+      src={p.video}
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-hidden="true"></video>
+
+    <!-- Gradiente negro en la parte de abajo para que el título se lea sobre la imagen -->
+    <div
+      class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent"
+      aria-hidden="true"
+    >
+    </div>
+
+    <!-- Índice mono arriba a la izquierda -->
+    <div
+      class="absolute top-5 left-5 font-mono text-[11px] tracking-[0.22em] text-white/80 uppercase"
+    >
+      {p.id} / {total.toString().padStart(2, "0")}
+    </div>
+
+    <!-- Tags como píldoras arriba a la derecha -->
+    <div class="absolute top-5 right-5 flex gap-2">
+      {
+        p.tags.map((t) => (
+          <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-white/75 border border-white/25 rounded-full px-2.5 py-1 backdrop-blur-sm bg-black/20">
+            {t}
+          </span>
+        ))
+      }
+    </div>
+
+    <!-- Meta inferior: cliente·año + título a la izquierda, rol a la derecha -->
+    <div class="absolute inset-x-5 bottom-5 flex items-end justify-between">
+      <div>
+        <div
+          class="font-mono text-[10px] tracking-[0.22em] uppercase text-slate-400"
+        >
+          {p.client} · {p.year}
+        </div>
+        <div class="font-serif text-3xl md:text-4xl mt-1 leading-none">
+          {p.title}
+        </div>
+      </div>
+      <div
+        class="hidden md:block text-right font-mono text-[10px] tracking-[0.22em] uppercase text-slate-300"
+      >
+        {p.role}
+      </div>
+    </div>
+  </div>
+</a>

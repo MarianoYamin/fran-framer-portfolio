@@ -1,0 +1,124 @@
+---
+/**
+ * @archivo    Layout.astro
+ * @modulo     Layout principal
+ * @descripcion Estructura HTML base del sitio: head con SEO, fuentes,
+ *              meta tags Open Graph, Twitter cards, JSON-LD (Person),
+ *              y overlays globales (grain + viñeta).
+ *              Todo lo que rodea al <slot /> de cada página.
+ * @actualizado 2026-05-13
+ */
+import "../styles/global.css";
+import { SITE_META, CONTACT } from "../data/site";
+
+interface Props {
+  /** Título de la página actual — se concatena al brand */
+  title?: string;
+  /** Description específica de la página (sino usa la global) */
+  description?: string;
+  /** Path de la ruta actual para canonical (ej: "/") */
+  pathname?: string;
+}
+
+const {
+  title,
+  description = SITE_META.description,
+  pathname = "/",
+} = Astro.props;
+
+const fullTitle = title
+  ? `${title} — ${SITE_META.brand}`
+  : `${SITE_META.brand} — Cineasta · Director de Fotografía`;
+
+const canonical = new URL(pathname, SITE_META.url).toString();
+const ogImageUrl = new URL(SITE_META.ogImage, SITE_META.url).toString();
+
+// ── JSON-LD: schema.org Person — ayuda a Google a entender que es Fran ───
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE_META.name,
+  jobTitle: "Cineasta · Director de Fotografía",
+  description: SITE_META.description,
+  url: SITE_META.url,
+  email: CONTACT.email,
+  telephone: CONTACT.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: CONTACT.studio.address1,
+    addressLocality: "Barcelona",
+    addressCountry: "ES",
+  },
+  sameAs: CONTACT.social.map((s) => s.href),
+};
+---
+
+<!doctype html>
+<html lang={SITE_META.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Tema oscuro nativo -->
+    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={SITE_META.brand} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    {
+      SITE_META.twitter && (
+        <meta name="twitter:creator" content={`@${SITE_META.twitter}`} />
+      )
+    }
+
+    <!-- Favicon SVG con la F serif (placeholder simple, sin dependencia externa) -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0A0A'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-family='Playfair Display, Georgia, serif' font-style='italic' font-weight='600' font-size='24' fill='white'%3EF%3C/text%3E%3C/svg%3E"
+    />
+
+    <!-- Fuentes — preconnect mejora el LCP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+    />
+
+    <!-- Sitemap (lo genera @astrojs/sitemap automáticamente en build) -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Datos estructurados para buscadores y motores de IA -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLd)}
+    />
+  </head>
+  <body class="grain vignette">
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,57 @@
+---
+/**
+ * @archivo    Work.astro
+ * @modulo     Sección Work / The Reel
+ * @descripcion Grid bento de 7 proyectos cinematográficos. Cada card es
+ *              un ProjectCard con tilt 3D y hover-to-play.
+ * @actualizado 2026-05-13
+ */
+import ProjectCard from "./ProjectCard.astro";
+import { PROJECTS } from "../data/site";
+
+const total = PROJECTS.length;
+---
+
+<section id="work" class="px-6 lg:px-12 py-28 lg:py-40 relative">
+  <!-- Header: eyebrow + H2 grande + link a archivo -->
+  <div class="flex items-end justify-between mb-14 lg:mb-20">
+    <div>
+      <div
+        class="reveal fade-up font-mono text-[11px] tracking-[0.3em] uppercase text-slate-400 mb-4 flex items-center gap-3"
+        style="animation-duration: 0.7s;"
+      >
+        <span class="w-8 h-px bg-slate-500"></span>
+        Trabajos Seleccionados — 2023 / 2025
+      </div>
+      <h2
+        class="reveal fade-up font-serif text-5xl md:text-7xl lg:text-8xl tracking-[-0.02em] leading-[0.95]"
+        style="animation-duration: 0.9s;"
+      >
+        El <span class="italic text-slate-300">reel.</span>
+      </h2>
+    </div>
+    <a
+      href="#"
+      data-cursor="link"
+      class="reveal fade-in hidden md:inline-flex items-center gap-2 link-underline text-[12px] tracking-[0.22em] uppercase text-slate-300"
+      style="animation-delay: 0.4s; animation-duration: 0.7s;"
+    >
+      Ver archivo ({total + 17})
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <path d="M5 12h14M13 5l7 7-7 7"></path>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Grid de 12 columnas en desktop, las cards definen su span/ratio -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 auto-rows-auto">
+    {PROJECTS.map((p, i) => <ProjectCard p={p} index={i} total={total} />)}
+  </div>
+</section>

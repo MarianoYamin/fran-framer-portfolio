@@ -1,0 +1,70 @@
+---
+/**
+ * @archivo    StaggeredHeadline.astro
+ * @modulo     Titular con stagger letra-por-letra
+ * @descripcion Renderiza un texto donde cada letra entra con animación
+ *              propia (translateY 110% → 0 + fade). El delay se calcula
+ *              en base a word_index y char_index para crear el efecto cascada.
+ *
+ *              trigger="mount" → arranca al cargar la página (hero)
+ *              trigger="view"  → arranca cuando el elemento entra en viewport
+ *
+ *              La lógica que añade la clase ".in" para disparar la animación
+ *              vive en /src/scripts/main.ts (función initStaggeredHeadlines).
+ * @actualizado 2026-05-13
+ */
+interface Props {
+  /** Texto a animar */
+  text: string;
+  /** Clases CSS extras (ej: estilos del padre) */
+  className?: string;
+  /** Delay base antes de empezar la animación, en segundos */
+  delay?: number;
+  /** Duración de la animación por letra, en segundos */
+  duration?: number;
+  /** "mount" arranca al cargar; "view" cuando entra en viewport */
+  trigger?: "mount" | "view";
+}
+
+const {
+  text,
+  className = "",
+  delay = 0,
+  duration = 0.9,
+  trigger = "mount",
+} = Astro.props;
+
+const words = text.split(" ");
+---
+
+<span
+  class={`stagger-headline ${className}`}
+  data-trigger={trigger}
+  data-base-delay={delay}
+  data-duration={duration}
+  aria-label={text}
+>
+  {
+    words.map((word, wi) => (
+      <span class="inline-block whitespace-nowrap">
+        {word.split("").map((c, ci) => (
+          <span
+            class="letter"
+            data-wi={wi}
+            data-ci={ci}
+            style={`--letter-delay: ${delay + wi * 0.04 + ci * 0.025}s; animation-duration: ${duration}s;`}
+          >
+            {c}
+          </span>
+        ))}
+        {wi < words.length - 1 && <span class="inline-block">&nbsp;</span>}
+      </span>
+    ))
+  }
+</span>
+
+<style>
+  .letter {
+    animation-delay: var(--letter-delay);
+  }
+</style>
