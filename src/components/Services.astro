@@ -17,16 +17,16 @@ import { SERVICES } from "../data/site";
   <!-- Header: eyebrow corto en col-3 + H2 manifiesto en col-9 -->
   <div class="grid grid-cols-12 gap-6 mb-16 lg:mb-24">
     <div
-      class="reveal fade-up col-span-12 lg:col-span-3 font-mono text-[11px] tracking-[0.3em] uppercase text-slate-400 flex items-start gap-3"
+      class="reveal fade-up col-span-12 lg:col-span-3 font-mono text-[11px] tracking-[0.3em] uppercase text-accent flex items-start gap-3"
       style="animation-duration: 0.7s;"
     >
-      <span class="w-8 h-px bg-slate-500 mt-2"></span> Lo que hago
+      <span class="w-8 h-px bg-accent mt-2"></span> Lo que hago
     </div>
     <h2
       class="reveal fade-up col-span-12 lg:col-span-9 font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-[-0.015em]"
       style="animation-duration: 0.9s;"
     >
-      Tres oficios <span class="italic text-slate-400">— una</span> sola mano paciente.
+      Tres oficios <span class="italic text-accent">— una</span> sola mano paciente.
       Dirección, cinematografía y postproducción — todo en casa, de principio a fin.
     </h2>
   </div>
@@ -50,7 +50,7 @@ import { SERVICES } from "../data/site";
           </p>
           <ul class="col-span-12 lg:col-span-3 space-y-2">
             {s.bullets.map((b) => (
-              <li class="font-mono text-[11px] tracking-[0.18em] uppercase text-slate-400 flex items-center gap-3">
+              <li class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent flex items-center gap-3">
                 <span class="w-1 h-1 rounded-full bg-slate-500" />
                 {b}
               </li>

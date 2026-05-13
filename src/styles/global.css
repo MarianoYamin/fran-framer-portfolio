@@ -12,7 +12,14 @@
 @theme {
   --color-charcoal: #0a0a0a;
   --color-elevated: #111111;
-  --color-live: #34d399;
+
+  /* Verde de marca de Fran (tomado de fran-framer.jimdosite.com).
+     Se usa para italics editoriales, eyebrows mono, líneas decorativas y el
+     dot del live clock — los momentos de identidad de marca. */
+  --color-accent: #86c91a;
+
+  /* Variante más oscura del verde — disponible para hovers o estados sutiles. */
+  --color-accent-deep: #007a08;
 
   --font-sans: "Inter", system-ui, sans-serif;
   --font-serif: "Playfair Display", Georgia, serif;

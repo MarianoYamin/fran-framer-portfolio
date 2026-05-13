@@ -18,9 +18,9 @@ import { CONTACT } from "../data/site";
 >
   <!-- Eyebrow con línea horizontal que crece de 0 a 100% -->
   <div
-    class="reveal min-reveal font-mono text-[11px] tracking-[0.3em] uppercase text-slate-400 mb-10 flex items-center gap-3"
+    class="reveal min-reveal font-mono text-[11px] tracking-[0.3em] uppercase text-accent mb-10 flex items-center gap-3"
   >
-    <span class="line-grow inline-block w-8 h-px bg-slate-500"></span>
+    <span class="line-grow inline-block w-8 h-px bg-accent"></span>
     Hablemos — Reservas para finales de 2026
   </div>
 
@@ -32,7 +32,7 @@ import { CONTACT } from "../data/site";
       Hagamos algo
     </span>
     <span
-      class="reveal min-reveal block italic text-slate-300"
+      class="reveal min-reveal block italic text-accent"
       style="animation-delay: 0.25s;"
     >
       en silencio.
@@ -58,7 +58,7 @@ import { CONTACT } from "../data/site";
       <a
         href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
         data-cursor="link"
-        class="block font-mono text-[12px] tracking-[0.18em] uppercase text-slate-300 link-underline w-fit"
+        class="block font-mono text-[12px] tracking-[0.18em] uppercase text-accent link-underline w-fit"
       >
         {CONTACT.phone}
       </a>
@@ -80,7 +80,7 @@ import { CONTACT } from "../data/site";
                 target="_blank"
                 rel="noopener"
                 data-cursor="link"
-                class="text-slate-300 hover:text-white link-underline"
+                class="text-accent hover:text-white link-underline"
               >
                 {s.label}
               </a>
@@ -111,7 +111,7 @@ import { CONTACT } from "../data/site";
   >
     <div>© 2026 Fran. Todos los planos reservados.</div>
     <div class="flex items-center gap-2">
-      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+      <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"
       ></span>
       <span>Barcelona · </span>
       <!-- El JS actualiza este span cada segundo con la hora de Madrid -->
