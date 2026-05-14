@@ -40,8 +40,16 @@ import ContactForm from "./ContactForm.astro";
     </span>
   </h2>
 
-  <!-- Grid 12-col con 3 bloques de información de contacto -->
-  <div class="mt-16 grid grid-cols-12 gap-6 border-t border-white/10 pt-10">
+  <!-- Sub-sección con formulario + calendario inline (va PRIMERO, justo
+       debajo del H2 gigante "Hagamos algo en silencio") -->
+  <ContactForm />
+
+  <!-- Grid 12-col con 3 bloques de información de contacto.
+       Se muestra DEBAJO del formulario + calendario como cierre del
+       bloque de contacto, antes del footer. -->
+  <div
+    class="mt-20 lg:mt-32 grid grid-cols-12 gap-6 border-t border-white/10 pt-16 lg:pt-20"
+  >
     <!-- Directo: email + teléfono -->
     <div class="col-span-12 md:col-span-4 space-y-4">
       <div
@@ -105,9 +113,6 @@ import ContactForm from "./ContactForm.astro";
       </p>
     </div>
   </div>
-
-  <!-- Sub-sección con botones rápidos + formulario de contacto -->
-  <ContactForm />
 
   <!-- Footer con copy + reloj en vivo + atribución -->
   <div
