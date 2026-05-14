@@ -1,13 +1,13 @@
 ---
 /**
  * @archivo    ContactForm.astro
- * @modulo     Formulario + agenda inline
+ * @modulo     Formulario + agenda inline (mismo bloque)
  * @descripcion Sub-sección de Contact.astro entre el grid de info y el footer.
- *              Tiene dos bloques separados por un hairline:
- *              1. Formulario editorial (Web3Forms) en grid 5/7 — explicación
- *                 a la izquierda con un link a WhatsApp, formulario a la derecha
- *              2. Calendario inline embebido de Calendly con los colores del
- *                 sitio aplicados via URL params
+ *              Un solo bloque con header arriba y dos columnas debajo:
+ *              IZQUIERDA: formulario (Web3Forms, AJAX, sin recarga)
+ *              DERECHA:   calendario inline embebido (Calendly, lazy-load)
+ *              En mobile las dos columnas se apilan: form arriba, calendario
+ *              abajo.
  *
  *              La lógica del submit y la carga lazy del script de Calendly
  *              están en /src/scripts/main.ts.
@@ -17,8 +17,8 @@ import { CONTACT, INTEGRATIONS } from "../data/site";
 
 // ── URL de Calendly con los colores de la marca aplicados ────────────────
 // Calendly soporta personalizar el widget pasando params en la URL.
-// Acá inyectamos los tokens visuales del sitio para que el calendario
-// se vea consistente con la paleta verde/negro/blanco.
+// Inyectamos los tokens visuales del sitio para que el calendario se vea
+// lo más consistente posible con la paleta verde/negro/blanco.
 function buildCalendlyEmbedUrl(baseUrl: string): string {
   try {
     const url = new URL(baseUrl);
@@ -28,7 +28,6 @@ function buildCalendlyEmbedUrl(baseUrl: string): string {
     url.searchParams.set("hide_gdpr_banner", "1");
     return url.toString();
   } catch {
-    // Si la URL es inválida (placeholder mal formado), devolvemos como está
     return baseUrl;
   }
 }
@@ -36,36 +35,36 @@ function buildCalendlyEmbedUrl(baseUrl: string): string {
 const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
 ---
 
-<!-- ──────────────────────────────────────────────────────────────────── -->
-<!-- BLOQUE 1: Formulario                                                 -->
-<!-- ──────────────────────────────────────────────────────────────────── -->
 <div
   class="mt-20 lg:mt-32 border-t border-white/10 pt-16 lg:pt-24 relative z-10"
 >
-  <div class="grid grid-cols-12 gap-x-6 gap-y-10 lg:gap-x-12">
-    <!-- Izquierda: explicación editorial + link a WhatsApp ─────────────── -->
+  <!-- Header del bloque: eyebrow + heading + bajada con link a WhatsApp ── -->
+  <!-- Sobre estos están ambas columnas (formulario y calendario). -->
+  <div class="grid grid-cols-12 gap-x-6 gap-y-6 mb-14 lg:mb-16 lg:gap-x-12">
     <div class="col-span-12 lg:col-span-5">
       <div
         class="reveal fade-up font-mono text-[11px] tracking-[0.3em] uppercase text-accent mb-6 flex items-center gap-3"
         style="animation-duration: 0.7s;"
       >
-        <span class="w-8 h-px bg-accent"></span> Mandame un mensaje
+        <span class="w-8 h-px bg-accent"></span> Empezá una conversación
       </div>
 
       <h3
-        class="reveal fade-up font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.05] tracking-[-0.02em] mb-6"
+        class="reveal fade-up font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.05] tracking-[-0.02em]"
         style="animation-duration: 0.9s;"
       >
         ¿Tenés un proyecto
         <span class="italic text-accent">en mente?</span>
       </h3>
+    </div>
 
+    <div class="col-span-12 lg:col-span-7 lg:flex lg:items-end">
       <p
-        class="reveal fade-up text-slate-300 text-[14px] leading-relaxed max-w-sm"
+        class="reveal fade-up text-slate-300 text-[14px] leading-relaxed max-w-md"
         style="animation-duration: 0.8s;"
       >
-        Contame qué necesitás y te respondo en menos de 24 horas. Si preferís
-        hablar al toque,
+        Escribime el detalle del proyecto o reservá un horario directo desde
+        el calendario. Si preferís hablar al toque,
         <a
           href={CONTACT.whatsapp}
           target="_blank"
@@ -90,11 +89,15 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
         </a>.
       </p>
     </div>
+  </div>
 
-    <!-- Derecha: formulario ─────────────────────────────────────────────── -->
+  <!-- Dos columnas: formulario (izq) + calendario inline (der) ─────────── -->
+  <!-- En mobile las dos columnas se apilan. -->
+  <div class="grid grid-cols-12 gap-x-6 gap-y-16 lg:gap-x-10">
+    <!-- COLUMNA IZQUIERDA: Formulario ───────────────────────────────────-->
     <form
       id="contact-form"
-      class="col-span-12 lg:col-span-7 reveal fade-up grid grid-cols-12 gap-x-6 gap-y-8"
+      class="col-span-12 lg:col-span-6 reveal fade-up flex flex-col gap-8"
       style="animation-duration: 0.8s; animation-delay: 0.1s;"
       novalidate
     >
@@ -110,7 +113,7 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
         value="Nueva consulta — Portfolio Fran Framer"
       />
       <input type="hidden" name="from_name" value="Portfolio Fran Framer" />
-      <!-- Honeypot anti-spam — los bots lo llenan, los humanos no lo ven -->
+      <!-- Honeypot anti-spam -->
       <input
         type="checkbox"
         name="botcheck"
@@ -121,8 +124,8 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
         aria-hidden="true"
       />
 
-      <!-- Nombre + Email en la misma fila en desktop -->
-      <label class="col-span-12 md:col-span-6 block">
+      <!-- Nombre -->
+      <label class="block">
         <span class="contact-label">Nombre</span>
         <input
           name="name"
@@ -134,7 +137,8 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
         />
       </label>
 
-      <label class="col-span-12 md:col-span-6 block">
+      <!-- Email -->
+      <label class="block">
         <span class="contact-label">Email</span>
         <input
           name="email"
@@ -147,7 +151,7 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
       </label>
 
       <!-- Tipo de proyecto -->
-      <label class="col-span-12 block">
+      <label class="block">
         <span class="contact-label">Tipo de proyecto</span>
         <select name="project_type" class="contact-input" required>
           <option value="" disabled selected>Elegí una categoría</option>
@@ -160,8 +164,8 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
         </select>
       </label>
 
-      <!-- Mensaje libre -->
-      <label class="col-span-12 block">
+      <!-- Mensaje -->
+      <label class="block">
         <span class="contact-label">Contame tu proyecto</span>
         <textarea
           name="message"
@@ -171,10 +175,8 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
           placeholder="Idea, fecha tentativa, referencias..."></textarea>
       </label>
 
-      <!-- Botón submit + mensaje de estado (compacto, lado a lado) -->
-      <div
-        class="col-span-12 flex items-center justify-between gap-4 flex-wrap mt-2"
-      >
+      <!-- Submit + estado -->
+      <div class="flex items-center justify-between gap-4 flex-wrap mt-auto">
         <p
           id="form-status"
           class="font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500 min-h-[14px]"
@@ -206,59 +208,27 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
         </button>
       </div>
     </form>
-  </div>
-</div>
 
-<!-- ──────────────────────────────────────────────────────────────────── -->
-<!-- BLOQUE 2: Calendario inline (Calendly)                                -->
-<!-- ──────────────────────────────────────────────────────────────────── -->
-<div
-  class="mt-24 lg:mt-32 border-t border-white/10 pt-16 lg:pt-24 relative z-10"
->
-  <!-- Header en grid 5/7 (mismo ritmo que el bloque del formulario) -->
-  <div class="grid grid-cols-12 gap-x-6 gap-y-6 mb-10 lg:gap-x-12">
-    <div class="col-span-12 lg:col-span-5">
+    <!-- COLUMNA DERECHA: Calendario inline ───────────────────────────────-->
+    <!-- El script de Calendly se carga lazy en main.ts cuando el div entra
+         en viewport (rootMargin 200px). La URL trae los colores de marca
+         aplicados via params. -->
+    <div
+      class="col-span-12 lg:col-span-6 reveal fade-up"
+      style="animation-duration: 0.8s; animation-delay: 0.2s;"
+    >
       <div
-        class="reveal fade-up font-mono text-[11px] tracking-[0.3em] uppercase text-accent mb-6 flex items-center gap-3"
-        style="animation-duration: 0.7s;"
+        id="calendly-inline"
+        class="calendly-inline-widget w-full border border-white/10 bg-[#0a0a0a]"
+        data-url={calendlyEmbedUrl}
+        style="min-width:320px;height:640px;"
       >
-        <span class="w-8 h-px bg-accent"></span> Agendá una reunión
       </div>
-
-      <h3
-        class="reveal fade-up font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.05] tracking-[-0.02em]"
-        style="animation-duration: 0.9s;"
-      >
-        Encontrá un <span class="italic text-accent">horario</span>.
-      </h3>
     </div>
-
-    <div class="col-span-12 lg:col-span-7 lg:flex lg:items-end">
-      <p
-        class="reveal fade-up text-slate-300 text-[14px] leading-relaxed max-w-md"
-        style="animation-duration: 0.8s;"
-      >
-        Reservá un bloque de 30 minutos directo desde acá. La confirmación
-        llega automática a tu mail, sin idas y vueltas.
-      </p>
-    </div>
-  </div>
-
-  <!-- Widget inline de Calendly.
-       El script se carga lazy en main.ts (initCalendlyInline) cuando el
-       div entra en viewport para no bloquear el initial paint.
-       La URL incluye los colores de marca para que el calendario se vea
-       consistente con la paleta del sitio. -->
-  <div
-    id="calendly-inline"
-    class="reveal fade-up calendly-inline-widget w-full"
-    data-url={calendlyEmbedUrl}
-    style="min-width:320px;height:700px;animation-duration: 1s;"
-  >
   </div>
 </div>
 
-<!-- Estilos locales ─────────────────────────────────────────────────────-->
+<!-- Estilos locales del formulario ──────────────────────────────────────-->
 <style>
   /* Label mono uppercase encima de cada input */
   .contact-label {
@@ -284,7 +254,6 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
     border-radius: 0;
     appearance: none;
     -webkit-appearance: none;
-    /* Transición lenta de color de borde — tono editorial */
     transition: border-color 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
@@ -297,7 +266,6 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
     color: #334155;
   }
 
-  /* Options del select en fondo oscuro para que matcheen el tema */
   .contact-input option {
     background: #0a0a0a;
     color: #fff;
