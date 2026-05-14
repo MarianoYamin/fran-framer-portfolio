@@ -257,17 +257,25 @@ muestra un mensaje propio.
 backend, soporta envío AJAX (no recarga la página), antispam con honeypot
 incluido, los datos solo pasan por su servidor antes de llegar al mail.
 
-### 2. Calendly (agenda)
+### 2. Calendly (agenda inline)
 
 1. Crear cuenta gratis en https://calendly.com/ con el mismo mail de Fran
 2. Configurar un evento (sugerencia: "Reunión de 30 minutos", recurrente,
    con bloques horarios disponibles)
 3. Copiar la URL del evento (formato `https://calendly.com/usuario/evento`)
 4. Abrir `src/data/site.ts` y pegar la URL en `INTEGRATIONS.calendlyUrl`
-5. Pushear → Vercel deploya → Calendly abre en popup integrado al sitio
+5. Pushear → Vercel deploya → el calendario aparece **embebido inline**
+   en la sección de contacto (no es un popup, está fijo en la página)
 
-El script de Calendly se carga **sólo cuando el usuario hace click** en
-"Agendar reunión" — no afecta la performance inicial del sitio.
+El widget se carga **lazy** vía IntersectionObserver: el script de Calendly
+sólo se descarga cuando el visitante se acerca al calendario al scrollear.
+Los colores del widget (background, texto y primary) se inyectan via
+URL params para que matchee con la paleta del sitio (negro + verde lima).
+
+**Si más adelante querés cambiar Calendly por otro servicio** (Cal.com,
+TidyCal, SavvyCal), todos exponen un embed inline con la misma API
+`<div class="..." data-url="..."></div>`. Sólo hay que reemplazar la URL
+del script en `src/scripts/main.ts` (función `initCalendlyInline`).
 
 ---
 

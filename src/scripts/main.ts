@@ -421,56 +421,49 @@ function initContactForm() {
   });
 }
 
-// ── 10. CALENDLY POPUP (carga lazy al hacer click) ────────────────────────
-// El widget de Calendly pesa ~30KB. En vez de cargarlo siempre, lo cargamos
-// la primera vez que el usuario hace click en "Agendar reunión". Una vez
-// cargado, queda disponible para clicks subsiguientes sin re-fetch.
-function initCalendly() {
-  const button = document.getElementById("open-calendly");
-  if (!button) return;
-  const calendlyUrl = button.getAttribute("data-calendly-url");
-  if (!calendlyUrl) return;
+// ── 10. CALENDLY INLINE (lazy-load al entrar en viewport) ─────────────────
+// El widget inline de Calendly pesa ~30KB de JS + CSS. Lo cargamos sólo
+// cuando el div del calendario se acerca al viewport del usuario (200px
+// antes), así no afecta el initial paint si el visitante nunca scrollea
+// hasta abajo. Una vez cargado, el script de Calendly busca todos los
+// .calendly-inline-widget y los renderiza automáticamente.
+function initCalendlyInline() {
+  const widget = document.getElementById("calendly-inline");
+  if (!widget) return;
 
-  // Estado: ¿ya cargamos el script de Calendly?
-  let calendlyLoaded = false;
-  let loadingPromise: Promise<void> | null = null;
+  let loaded = false;
 
-  function loadCalendly(): Promise<void> {
-    if (calendlyLoaded) return Promise.resolve();
-    if (loadingPromise) return loadingPromise;
+  function loadCalendly() {
+    if (loaded) return;
+    loaded = true;
 
-    loadingPromise = new Promise<void>((resolve, reject) => {
-      // Inyectamos el CSS de Calendly
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = "https://assets.calendly.com/assets/external/widget.css";
-      document.head.appendChild(link);
+    // CSS del widget
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://assets.calendly.com/assets/external/widget.css";
+    document.head.appendChild(link);
 
-      // Y el script
-      const script = document.createElement("script");
-      script.src = "https://assets.calendly.com/assets/external/widget.js";
-      script.async = true;
-      script.onload = () => {
-        calendlyLoaded = true;
-        resolve();
-      };
-      script.onerror = () => reject(new Error("No se pudo cargar Calendly"));
-      document.body.appendChild(script);
-    });
-
-    return loadingPromise;
+    // Script — al cargar, busca todos los .calendly-inline-widget y los renderiza
+    const script = document.createElement("script");
+    script.src = "https://assets.calendly.com/assets/external/widget.js";
+    script.async = true;
+    document.body.appendChild(script);
   }
 
-  button.addEventListener("click", async () => {
-    try {
-      await loadCalendly();
-      // @ts-ignore — Calendly se inyecta en window al cargar el script
-      window.Calendly?.initPopupWidget({ url: calendlyUrl });
-    } catch {
-      // Si falla la carga, fallback a abrir Calendly en pestaña nueva
-      window.open(calendlyUrl, "_blank", "noopener");
-    }
-  });
+  // IntersectionObserver con rootMargin 200px para empezar a cargar
+  // antes de que el calendario realmente sea visible.
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadCalendly();
+          io.disconnect();
+        }
+      });
+    },
+    { rootMargin: "200px" },
+  );
+  io.observe(widget);
 }
 
 // ── INICIALIZACIÓN ────────────────────────────────────────────────────────
@@ -485,7 +478,7 @@ function init() {
   initLiveClock();
   initFloatingContact();
   initContactForm();
-  initCalendly();
+  initCalendlyInline();
 }
 
 if (document.readyState === "loading") {
