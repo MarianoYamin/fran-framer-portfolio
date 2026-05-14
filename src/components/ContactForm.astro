@@ -1,0 +1,284 @@
+---
+/**
+ * @archivo    ContactForm.astro
+ * @modulo     Formulario de contacto + botones rápidos
+ * @descripcion Sub-sección que va dentro de Contact.astro, entre el grid de
+ *              información y el footer. Contiene:
+ *              1. Dos botones grandes: WhatsApp directo + Agendar reunión
+ *                 (Calendly popup cargado lazy al hacer click)
+ *              2. Formulario editorial que envía los datos a Web3Forms,
+ *                 que a su vez los reenvía al mail configurado de Fran
+ *
+ *              La lógica del submit y de la carga de Calendly vive en
+ *              /src/scripts/main.ts (funciones initContactForm e initCalendly).
+ * @actualizado 2026-05-14
+ */
+import { CONTACT, INTEGRATIONS } from "../data/site";
+---
+
+<div
+  class="mt-20 lg:mt-32 border-t border-white/10 pt-16 lg:pt-24 relative z-10"
+>
+  <!-- Eyebrow editorial -->
+  <div
+    class="reveal fade-up font-mono text-[11px] tracking-[0.3em] uppercase text-accent mb-6 flex items-center gap-3"
+    style="animation-duration: 0.7s;"
+  >
+    <span class="w-8 h-px bg-accent"></span> Empezá una conversación
+  </div>
+
+  <!-- Heading principal del sub-bloque -->
+  <h3
+    class="reveal fade-up font-serif text-4xl md:text-6xl lg:text-7xl leading-[1] tracking-[-0.02em] mb-10"
+    style="animation-duration: 0.9s;"
+  >
+    ¿Tenés un proyecto <span class="italic text-accent">en mente?</span>
+  </h3>
+
+  <p
+    class="reveal fade-up text-slate-300 text-[15px] leading-relaxed max-w-2xl mb-14"
+    style="animation-duration: 0.8s; animation-delay: 0.1s;"
+  >
+    Contame qué necesitás. Hablamos por WhatsApp, agendamos una llamada, o me
+    dejás los detalles abajo y te respondo en menos de 24 horas.
+  </p>
+
+  <!-- Acciones rápidas: WhatsApp + Calendly ────────────────────────────── -->
+  <div
+    class="reveal fade-up grid grid-cols-1 md:grid-cols-2 gap-4 mb-16"
+    style="animation-duration: 0.8s; animation-delay: 0.15s;"
+  >
+    <!-- WhatsApp — botón verde sólido, abre el chat de WhatsApp en nueva pestaña -->
+    <a
+      href={CONTACT.whatsapp}
+      target="_blank"
+      rel="noopener"
+      data-cursor="link"
+      class="group flex items-center justify-between px-6 lg:px-8 py-6 bg-accent text-black hover:brightness-110 transition-all"
+    >
+      <span class="font-mono text-[12px] tracking-[0.22em] uppercase font-medium">
+        Chatear por WhatsApp
+      </span>
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="group-hover:translate-x-1 transition-transform"
+      >
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+        ></path>
+      </svg>
+    </a>
+
+    <!-- Calendly — botón outline verde. El click carga el script de Calendly lazy
+         y abre el widget popup. La URL viene de data-calendly-url. -->
+    <button
+      id="open-calendly"
+      data-cursor="link"
+      data-calendly-url={INTEGRATIONS.calendlyUrl}
+      type="button"
+      class="group flex items-center justify-between px-6 lg:px-8 py-6 border border-accent text-accent hover:bg-accent hover:text-black transition-colors text-left"
+    >
+      <span class="font-mono text-[12px] tracking-[0.22em] uppercase font-medium">
+        Agendar reunión
+      </span>
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="group-hover:translate-x-1 transition-transform"
+      >
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Formulario ─────────────────────────────────────────────────────────
+       Submitea via fetch a Web3Forms (no recarga la página).
+       La lógica del submit está en main.ts → initContactForm(). -->
+  <form
+    id="contact-form"
+    class="reveal fade-up grid grid-cols-12 gap-x-6 gap-y-10"
+    style="animation-duration: 0.8s; animation-delay: 0.2s;"
+    novalidate
+  >
+    <!-- Campos ocultos que Web3Forms necesita -->
+    <input
+      type="hidden"
+      name="access_key"
+      value={INTEGRATIONS.web3formsKey}
+    />
+    <input
+      type="hidden"
+      name="subject"
+      value="Nueva consulta — Portfolio Fran Framer"
+    />
+    <input type="hidden" name="from_name" value="Portfolio Fran Framer" />
+
+    <!-- Honeypot anti-spam: si un bot lo llena, Web3Forms descarta el envío -->
+    <input
+      type="checkbox"
+      name="botcheck"
+      class="hidden"
+      style="display:none"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+    />
+
+    <!-- Nombre + Email en la misma fila en desktop -->
+    <label class="col-span-12 md:col-span-6 block">
+      <span
+        class="block font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500 mb-3"
+      >
+        Nombre
+      </span>
+      <input
+        name="name"
+        type="text"
+        required
+        autocomplete="name"
+        class="contact-input"
+        placeholder="Tu nombre"
+      />
+    </label>
+
+    <label class="col-span-12 md:col-span-6 block">
+      <span
+        class="block font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500 mb-3"
+      >
+        Email
+      </span>
+      <input
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        class="contact-input"
+        placeholder="tu@email.com"
+      />
+    </label>
+
+    <!-- Tipo de proyecto: select con las categorías que maneja Fran -->
+    <label class="col-span-12 block">
+      <span
+        class="block font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500 mb-3"
+      >
+        Tipo de proyecto
+      </span>
+      <select name="project_type" class="contact-input" required>
+        <option value="" disabled selected>Elegí una categoría</option>
+        <option value="Cortometraje">Cortometraje</option>
+        <option value="Brand Film / Marca">Brand Film / Marca</option>
+        <option value="Videoclip">Videoclip</option>
+        <option value="Documental">Documental</option>
+        <option value="Postproducción">Sólo postproducción / edición</option>
+        <option value="Otro">Otro</option>
+      </select>
+    </label>
+
+    <!-- Mensaje libre -->
+    <label class="col-span-12 block">
+      <span
+        class="block font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500 mb-3"
+      >
+        Contame tu proyecto
+      </span>
+      <textarea
+        name="message"
+        rows="4"
+        required
+        class="contact-input resize-none"
+        placeholder="Idea general, fecha tentativa, referencias, presupuesto..."
+      ></textarea>
+    </label>
+
+    <!-- Botón de envío + mensaje de estado -->
+    <div
+      class="col-span-12 flex items-center justify-between gap-6 flex-wrap mt-4"
+    >
+      <p
+        id="form-status"
+        class="font-mono text-[11px] tracking-[0.22em] uppercase text-slate-500 min-h-[16px]"
+        aria-live="polite"
+      >
+      </p>
+      <button
+        type="submit"
+        data-cursor="link"
+        class="inline-flex items-center gap-3 bg-accent text-black px-8 py-4 hover:brightness-110 transition-all"
+      >
+        <span class="font-mono text-[12px] tracking-[0.22em] uppercase font-medium">
+          Enviar mensaje
+        </span>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M5 12h14M13 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Estilos locales para los inputs del formulario.
+     Estilo editorial: sin caja, sólo línea inferior que se vuelve verde al focus. -->
+<style>
+  .contact-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.75rem 0;
+    color: #fff;
+    font-size: 17px;
+    font-family: "Inter", system-ui, sans-serif;
+    transition: border-color 0.3s ease;
+    border-radius: 0;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .contact-input:focus {
+    outline: none;
+    border-bottom-color: #86c91a;
+  }
+
+  .contact-input::placeholder {
+    color: #475569;
+  }
+
+  /* Para el <select>: forzamos color de fondo oscuro en las opciones, sino
+     el dropdown nativo se ve blanco en algunos navegadores */
+  .contact-input option {
+    background: #0a0a0a;
+    color: #fff;
+  }
+
+  /* Triangulito custom para el select — el nativo no respeta nuestros colores */
+  select.contact-input {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2386c91a' stroke-width='1.5'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.25rem center;
+    background-size: 18px;
+    padding-right: 2rem;
+  }
+</style>

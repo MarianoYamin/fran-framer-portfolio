@@ -228,6 +228,33 @@ export const CONTACT: SiteContact = {
   location: "Córdoba, AR — En localización",
 };
 
+// ── Integraciones de terceros (formulario + agenda) ──────────────────────
+// IMPORTANTE: para que el formulario y Calendly funcionen en producción,
+// hay que dar de alta las dos cuentas y reemplazar los placeholders abajo.
+//
+// 1. Web3Forms (envía el formulario al mail de Fran sin necesidad de backend):
+//    - Entrá a https://web3forms.com/
+//    - Ingresá el email donde querés recibir las consultas
+//    - Te llega un access key (formato UUID) — pegalo abajo
+//    - Servicio gratis, sin límite de envíos mensuales
+//
+// 2. Calendly (agenda de reuniones):
+//    - Creá cuenta gratis en https://calendly.com/
+//    - Configurá un evento tipo "Reunión de 30 minutos"
+//    - Copiá el link del evento (formato https://calendly.com/usuario/evento)
+//    - Pegalo abajo en calendlyUrl
+//
+// Si calendlyUrl queda en placeholder, el botón "Agendar reunión" abre
+// igual el popup pero con un mensaje de error de Calendly. Lo mismo con
+// el formulario — submitea pero falla hasta que pongas el access key real.
+export const INTEGRATIONS = {
+  /** Access key de Web3Forms — registrate gratis en https://web3forms.com/ */
+  web3formsKey: "REEMPLAZAR_CON_TU_ACCESS_KEY_DE_WEB3FORMS",
+
+  /** URL completa del evento de Calendly (ej: https://calendly.com/usuario/30min) */
+  calendlyUrl: "https://calendly.com/franframer/30min",
+};
+
 // ── Meta del sitio (para SEO) ─────────────────────────────────────────────
 export const SITE_META = {
   name: "Fran Framer",

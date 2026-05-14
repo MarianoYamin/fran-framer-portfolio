@@ -350,6 +350,129 @@ function initFloatingContact() {
   });
 }
 
+// ── 9. FORMULARIO DE CONTACTO (Web3Forms) ─────────────────────────────────
+// Submitea via fetch a https://api.web3forms.com/submit y muestra el estado
+// inline sin recargar la página. El access_key sale del input hidden que
+// rellena Astro desde INTEGRATIONS.web3formsKey en src/data/site.ts.
+function initContactForm() {
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("form-status");
+  if (!form || !status) return;
+
+  // Clases base del mensaje de estado (mismo formato que el placeholder)
+  const baseClass =
+    "font-mono text-[11px] tracking-[0.22em] uppercase min-h-[16px]";
+
+  function setStatus(msg: string, tone: "info" | "ok" | "error") {
+    const colorMap = {
+      info: "text-slate-400",
+      ok: "text-accent",
+      error: "text-red-400",
+    } as const;
+    status!.textContent = msg;
+    status!.className = `${baseClass} ${colorMap[tone]}`;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    // Validación nativa antes de mandar — el novalidate del form la desactiva
+    // a nivel HTML para poder mostrar nuestro propio mensaje en estilo del sitio.
+    if (!form.checkValidity()) {
+      setStatus("Falta completar algún campo obligatorio.", "error");
+      return;
+    }
+
+    setStatus("Enviando…", "info");
+
+    const formData = new FormData(form);
+    // Web3Forms acepta tanto FormData como JSON; usamos JSON porque es más
+    // robusto a través de proxies y CDN.
+    const payload: Record<string, FormDataEntryValue> = {};
+    formData.forEach((value, key) => {
+      payload[key] = value;
+    });
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setStatus("Mensaje enviado. Te respondo pronto.", "ok");
+        form.reset();
+      } else {
+        // Web3Forms devuelve un mensaje específico cuando el access key es inválido
+        const reason = data.message || "Algo falló al enviar.";
+        setStatus(reason, "error");
+      }
+    } catch (err) {
+      setStatus(
+        "Sin conexión. Probá por WhatsApp o email directo.",
+        "error",
+      );
+    }
+  });
+}
+
+// ── 10. CALENDLY POPUP (carga lazy al hacer click) ────────────────────────
+// El widget de Calendly pesa ~30KB. En vez de cargarlo siempre, lo cargamos
+// la primera vez que el usuario hace click en "Agendar reunión". Una vez
+// cargado, queda disponible para clicks subsiguientes sin re-fetch.
+function initCalendly() {
+  const button = document.getElementById("open-calendly");
+  if (!button) return;
+  const calendlyUrl = button.getAttribute("data-calendly-url");
+  if (!calendlyUrl) return;
+
+  // Estado: ¿ya cargamos el script de Calendly?
+  let calendlyLoaded = false;
+  let loadingPromise: Promise<void> | null = null;
+
+  function loadCalendly(): Promise<void> {
+    if (calendlyLoaded) return Promise.resolve();
+    if (loadingPromise) return loadingPromise;
+
+    loadingPromise = new Promise<void>((resolve, reject) => {
+      // Inyectamos el CSS de Calendly
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://assets.calendly.com/assets/external/widget.css";
+      document.head.appendChild(link);
+
+      // Y el script
+      const script = document.createElement("script");
+      script.src = "https://assets.calendly.com/assets/external/widget.js";
+      script.async = true;
+      script.onload = () => {
+        calendlyLoaded = true;
+        resolve();
+      };
+      script.onerror = () => reject(new Error("No se pudo cargar Calendly"));
+      document.body.appendChild(script);
+    });
+
+    return loadingPromise;
+  }
+
+  button.addEventListener("click", async () => {
+    try {
+      await loadCalendly();
+      // @ts-ignore — Calendly se inyecta en window al cargar el script
+      window.Calendly?.initPopupWidget({ url: calendlyUrl });
+    } catch {
+      // Si falla la carga, fallback a abrir Calendly en pestaña nueva
+      window.open(calendlyUrl, "_blank", "noopener");
+    }
+  });
+}
+
 // ── INICIALIZACIÓN ────────────────────────────────────────────────────────
 // Se ejecuta apenas el DOM está parseado (no esperamos a las imágenes)
 function init() {
@@ -361,6 +484,8 @@ function init() {
   initStaggeredHeadlines();
   initLiveClock();
   initFloatingContact();
+  initContactForm();
+  initCalendly();
 }
 
 if (document.readyState === "loading") {

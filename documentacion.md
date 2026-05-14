@@ -236,6 +236,41 @@ Casi todo el contenido se edita en un solo archivo: **`src/data/site.ts`**.
 
 ---
 
+## Setup de integraciones del formulario y la agenda
+
+El formulario y el botón "Agendar reunión" necesitan dos cuentas externas
+(ambas gratis) para funcionar en producción. Mientras no se configuren, el
+sitio se ve perfecto pero el formulario tira error al enviar y Calendly
+muestra un mensaje propio.
+
+### 1. Web3Forms (formulario → email de Fran)
+
+1. Entrar a https://web3forms.com/
+2. Ingresar el email donde Fran quiere recibir las consultas
+3. Llega un email con un **Access Key** (formato UUID, ej:
+   `a1b2c3d4-e5f6-7890-abcd-ef1234567890`)
+4. Abrir `src/data/site.ts` y reemplazar el placeholder de
+   `INTEGRATIONS.web3formsKey` por la key real
+5. Pushear el cambio → Vercel deploya solo → formulario funcionando
+
+**Por qué Web3Forms y no otra cosa:** gratis sin límite mensual, no requiere
+backend, soporta envío AJAX (no recarga la página), antispam con honeypot
+incluido, los datos solo pasan por su servidor antes de llegar al mail.
+
+### 2. Calendly (agenda)
+
+1. Crear cuenta gratis en https://calendly.com/ con el mismo mail de Fran
+2. Configurar un evento (sugerencia: "Reunión de 30 minutos", recurrente,
+   con bloques horarios disponibles)
+3. Copiar la URL del evento (formato `https://calendly.com/usuario/evento`)
+4. Abrir `src/data/site.ts` y pegar la URL en `INTEGRATIONS.calendlyUrl`
+5. Pushear → Vercel deploya → Calendly abre en popup integrado al sitio
+
+El script de Calendly se carga **sólo cuando el usuario hace click** en
+"Agendar reunión" — no afecta la performance inicial del sitio.
+
+---
+
 ## Pendientes a resolver con el cliente
 
 1. **Assets reales:** Fran tiene que entregar:
