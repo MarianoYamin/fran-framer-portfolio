@@ -257,25 +257,33 @@ muestra un mensaje propio.
 backend, soporta envío AJAX (no recarga la página), antispam con honeypot
 incluido, los datos solo pasan por su servidor antes de llegar al mail.
 
-### 2. Calendly (agenda inline)
+### 2. Cal.com (agenda inline)
 
-1. Crear cuenta gratis en https://calendly.com/ con el mismo mail de Fran
-2. Configurar un evento (sugerencia: "Reunión de 30 minutos", recurrente,
-   con bloques horarios disponibles)
-3. Copiar la URL del evento (formato `https://calendly.com/usuario/evento`)
-4. Abrir `src/data/site.ts` y pegar la URL en `INTEGRATIONS.calendlyUrl`
+Elegimos Cal.com sobre Calendly porque:
+- Plan gratis sin branding "Powered by..." (Calendly lo pone)
+- Open source, eventos ilimitados en plan free
+- Mejor personalización visual del widget embebido
+
+Pasos:
+
+1. Crear cuenta gratis en https://cal.com/ con el mismo mail de Fran
+2. Configurar un tipo de evento (sugerencia: "Consulta — 30 minutos",
+   recurrente, con bloques horarios disponibles)
+3. Copiar el link público del evento (formato `https://cal.com/usuario/evento`)
+4. Abrir `src/data/site.ts` y pegarlo en `INTEGRATIONS.calcomLink`.
+   El código acepta tanto la URL completa como sólo `usuario/evento`.
 5. Pushear → Vercel deploya → el calendario aparece **embebido inline**
-   en la sección de contacto (no es un popup, está fijo en la página)
+   en la sección de contacto, con tema oscuro y el verde de marca aplicado
+   como brand color via `Cal("ui", { cssVarsPerTheme: ... })`.
 
-El widget se carga **lazy** vía IntersectionObserver: el script de Calendly
-sólo se descarga cuando el visitante se acerca al calendario al scrollear.
-Los colores del widget (background, texto y primary) se inyectan via
-URL params para que matchee con la paleta del sitio (negro + verde lima).
+El widget se carga **lazy** vía IntersectionObserver: el loader de Cal.com
+sólo inyecta su script de embed cuando el visitante se acerca al calendario
+al scrollear (rootMargin 200px), sin afectar el initial paint.
 
-**Si más adelante querés cambiar Calendly por otro servicio** (Cal.com,
-TidyCal, SavvyCal), todos exponen un embed inline con la misma API
-`<div class="..." data-url="..."></div>`. Sólo hay que reemplazar la URL
-del script en `src/scripts/main.ts` (función `initCalendlyInline`).
+**Si más adelante querés cambiar Cal.com por otro servicio** (Calendly,
+TidyCal, SavvyCal), reemplazar la función `initCalcomInline` en
+`src/scripts/main.ts` por la API del servicio nuevo. El div en
+`ContactForm.astro` puede quedar igual (sólo cambia el id si hace falta).
 
 ---
 

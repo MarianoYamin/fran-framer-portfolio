@@ -229,8 +229,9 @@ export const CONTACT: SiteContact = {
 };
 
 // ── Integraciones de terceros (formulario + agenda) ──────────────────────
-// IMPORTANTE: para que el formulario y Calendly funcionen en producción,
-// hay que dar de alta las dos cuentas y reemplazar los placeholders abajo.
+// IMPORTANTE: para que el formulario y la agenda funcionen en producción,
+// hay que dar de alta las dos cuentas (las dos gratis) y reemplazar los
+// placeholders abajo.
 //
 // 1. Web3Forms (envía el formulario al mail de Fran sin necesidad de backend):
 //    - Entrá a https://web3forms.com/
@@ -238,21 +239,27 @@ export const CONTACT: SiteContact = {
 //    - Te llega un access key (formato UUID) — pegalo abajo
 //    - Servicio gratis, sin límite de envíos mensuales
 //
-// 2. Calendly (agenda de reuniones):
-//    - Creá cuenta gratis en https://calendly.com/
-//    - Configurá un evento tipo "Reunión de 30 minutos"
-//    - Copiá el link del evento (formato https://calendly.com/usuario/evento)
-//    - Pegalo abajo en calendlyUrl
+// 2. Cal.com (agenda inline embebida):
+//    - Creá cuenta gratis en https://cal.com/
+//    - Configurá un tipo de evento (sugerencia: "Consulta — 30 minutos")
+//    - Copiá tu link público (formato https://cal.com/usuario/evento)
+//      o sólo la parte "usuario/evento" — el código acepta ambas formas
+//    - Pegalo abajo en calcomLink
 //
-// Si calendlyUrl queda en placeholder, el botón "Agendar reunión" abre
-// igual el popup pero con un mensaje de error de Calendly. Lo mismo con
-// el formulario — submitea pero falla hasta que pongas el access key real.
+//    Por qué Cal.com y no Calendly:
+//    - Cal.com gratis = sin branding "Powered by". Calendly gratis lo pone.
+//    - Cal.com es open source, eventos ilimitados en el plan free.
+//    - Mejor personalización visual del widget embebido.
+//
+// Si los placeholders quedan sin reemplazar, el sitio se ve correcto pero
+// el formulario tira error al enviar y Cal.com muestra "perfil no encontrado".
 export const INTEGRATIONS = {
   /** Access key de Web3Forms — registrate gratis en https://web3forms.com/ */
   web3formsKey: "REEMPLAZAR_CON_TU_ACCESS_KEY_DE_WEB3FORMS",
 
-  /** URL completa del evento de Calendly (ej: https://calendly.com/usuario/30min) */
-  calendlyUrl: "https://calendly.com/franframer/30min",
+  /** Link de Cal.com — acepta URL completa o sólo "usuario/evento".
+   *  Ej: "https://cal.com/franframer/30min" o "franframer/30min". */
+  calcomLink: "franframer/30min",
 };
 
 // ── Meta del sitio (para SEO) ─────────────────────────────────────────────

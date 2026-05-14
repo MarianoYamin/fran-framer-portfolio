@@ -421,33 +421,91 @@ function initContactForm() {
   });
 }
 
-// ── 10. CALENDLY INLINE (lazy-load al entrar en viewport) ─────────────────
-// El widget inline de Calendly pesa ~30KB de JS + CSS. Lo cargamos sólo
-// cuando el div del calendario se acerca al viewport del usuario (200px
-// antes), así no afecta el initial paint si el visitante nunca scrollea
-// hasta abajo. Una vez cargado, el script de Calendly busca todos los
-// .calendly-inline-widget y los renderiza automáticamente.
-function initCalendlyInline() {
-  const widget = document.getElementById("calendly-inline");
+// ── 10. CAL.COM INLINE (lazy-load al entrar en viewport) ──────────────────
+// El widget inline de Cal.com se carga sólo cuando el div del calendario
+// se acerca al viewport del usuario (200px antes), para no afectar el
+// initial paint si el visitante nunca scrollea hasta abajo.
+//
+// Cal.com usa un loader IIFE que setea window.Cal como una cola; al primer
+// `Cal("init", ...)` inyecta el script real de embed.js. Después llamamos
+// a `Cal("inline", ...)` para montar el calendario y `Cal("ui", ...)`
+// para aplicar el tema dark + el verde de marca como brand color.
+function initCalcomInline() {
+  const widget = document.getElementById("cal-inline");
   if (!widget) return;
+  const calLink = widget.getAttribute("data-cal-link");
+  if (!calLink) return;
 
   let loaded = false;
 
-  function loadCalendly() {
+  function loadCalcom() {
     if (loaded) return;
     loaded = true;
 
-    // CSS del widget
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://assets.calendly.com/assets/external/widget.css";
-    document.head.appendChild(link);
+    // Loader oficial de Cal.com — IIFE que setea window.Cal y, al primer
+    // `Cal("init", ...)`, inyecta https://app.cal.com/embed/embed.js.
+    // El código viene literalmente de la documentación de Cal.com.
+    // eslint-disable-next-line
+    (function (C: any, A: string, L: string) {
+      const p = function (a: any, ar: IArguments) {
+        a.q.push(ar);
+      };
+      const d = C.document;
+      C.Cal =
+        C.Cal ||
+        function () {
+          const cal = C.Cal;
+          // eslint-disable-next-line prefer-rest-params
+          const ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement("script")).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () {
+              // eslint-disable-next-line prefer-rest-params
+              p(api, arguments);
+            };
+            const namespace = ar[1];
+            (api as any).q = (api as any).q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else {
+              p(cal, ar);
+            }
+            return;
+          }
+          p(cal, ar);
+        };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
 
-    // Script — al cargar, busca todos los .calendly-inline-widget y los renderiza
-    const script = document.createElement("script");
-    script.src = "https://assets.calendly.com/assets/external/widget.js";
-    script.async = true;
-    document.body.appendChild(script);
+    // @ts-ignore — window.Cal lo inyecta el loader IIFE de arriba
+    window.Cal("init", { origin: "https://cal.com" });
+
+    // Monta el calendario inline dentro del div #cal-inline.
+    // @ts-ignore
+    window.Cal("inline", {
+      elementOrSelector: "#cal-inline",
+      calLink,
+      layout: "month_view",
+    });
+
+    // Aplica el tema oscuro + verde de marca como brandColor.
+    // @ts-ignore
+    window.Cal("ui", {
+      theme: "dark",
+      cssVarsPerTheme: {
+        dark: {
+          "cal-brand": "#86c91a",
+        },
+      },
+      hideEventTypeDetails: false,
+      layout: "month_view",
+    });
   }
 
   // IntersectionObserver con rootMargin 200px para empezar a cargar
@@ -456,7 +514,7 @@ function initCalendlyInline() {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          loadCalendly();
+          loadCalcom();
           io.disconnect();
         }
       });
@@ -478,7 +536,7 @@ function init() {
   initLiveClock();
   initFloatingContact();
   initContactForm();
-  initCalendlyInline();
+  initCalcomInline();
 }
 
 if (document.readyState === "loading") {

@@ -2,37 +2,35 @@
 /**
  * @archivo    ContactForm.astro
  * @modulo     Formulario + agenda inline (mismo bloque)
- * @descripcion Sub-sección de Contact.astro entre el grid de info y el footer.
- *              Un solo bloque con header arriba y dos columnas debajo:
+ * @descripcion Sub-sección de Contact.astro. Un solo bloque con header
+ *              arriba y dos columnas debajo:
  *              IZQUIERDA: formulario (Web3Forms, AJAX, sin recarga)
- *              DERECHA:   calendario inline embebido (Calendly, lazy-load)
+ *              DERECHA:   calendario inline embebido (Cal.com, lazy-load)
  *              En mobile las dos columnas se apilan: form arriba, calendario
  *              abajo.
  *
- *              La lógica del submit y la carga lazy del script de Calendly
+ *              La lógica del submit y la carga lazy del script de Cal.com
  *              están en /src/scripts/main.ts.
  * @actualizado 2026-05-14
  */
 import { CONTACT, INTEGRATIONS } from "../data/site";
 
-// ── URL de Calendly con los colores de la marca aplicados ────────────────
-// Calendly soporta personalizar el widget pasando params en la URL.
-// Inyectamos los tokens visuales del sitio para que el calendario se vea
-// lo más consistente posible con la paleta verde/negro/blanco.
-function buildCalendlyEmbedUrl(baseUrl: string): string {
-  try {
-    const url = new URL(baseUrl);
-    url.searchParams.set("background_color", "0a0a0a");
-    url.searchParams.set("text_color", "ffffff");
-    url.searchParams.set("primary_color", "86c91a");
-    url.searchParams.set("hide_gdpr_banner", "1");
-    return url.toString();
-  } catch {
-    return baseUrl;
+// ── Normalización del link de Cal.com ────────────────────────────────────
+// El campo INTEGRATIONS.calcomLink puede venir como URL completa
+// ("https://cal.com/usuario/evento") o como path corto ("usuario/evento").
+// La API de Cal.com necesita la forma corta — esta función la extrae.
+function normalizeCalLink(input: string): string {
+  if (input.startsWith("http")) {
+    try {
+      return new URL(input).pathname.replace(/^\/+/, "");
+    } catch {
+      return input;
+    }
   }
+  return input.replace(/^\/+/, "");
 }
 
-const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
+const calLink = normalizeCalLink(INTEGRATIONS.calcomLink);
 ---
 
 <div
@@ -209,18 +207,18 @@ const calendlyEmbedUrl = buildCalendlyEmbedUrl(INTEGRATIONS.calendlyUrl);
       </div>
     </form>
 
-    <!-- COLUMNA DERECHA: Calendario inline ───────────────────────────────-->
-    <!-- El script de Calendly se carga lazy en main.ts cuando el div entra
-         en viewport (rootMargin 200px). La URL trae los colores de marca
-         aplicados via params. -->
+    <!-- COLUMNA DERECHA: Calendario inline (Cal.com) ────────────────────-->
+    <!-- El script de Cal.com se carga lazy en main.ts cuando el div entra
+         en viewport (rootMargin 200px). El tema dark + el verde de marca
+         se aplican via Cal("ui", ...) después de que el embed monta. -->
     <div
       class="col-span-12 lg:col-span-6 reveal fade-up"
       style="animation-duration: 0.8s; animation-delay: 0.2s;"
     >
       <div
-        id="calendly-inline"
-        class="calendly-inline-widget w-full border border-white/10 bg-[#0a0a0a]"
-        data-url={calendlyEmbedUrl}
+        id="cal-inline"
+        class="w-full border border-white/10 bg-[#0a0a0a] overflow-hidden"
+        data-cal-link={calLink}
         style="min-width:320px;height:640px;"
       >
       </div>
