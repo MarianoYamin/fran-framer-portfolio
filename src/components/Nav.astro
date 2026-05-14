@@ -19,30 +19,36 @@ const items = [
 const [brandMain, brandRest] = SITE_META.brand.split(" / ");
 ---
 
+<!--
+  Navbar responsive:
+  - En mobile (< 640px): tipografía 10px, padding chico, tracking más cerrado,
+    para que la píldora entre completa en pantallas angostas.
+  - En sm+ (>= 640px): tamaños originales (13px, padding cómodo, etc.).
+-->
 <nav
   id="nav"
-  class="fixed top-5 left-1/2 -translate-x-1/2 z-50"
+  class="fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 z-50 max-w-[calc(100vw-1rem)]"
   style="animation: navIn 0.9s cubic-bezier(.2,.7,.2,1) 0.4s both;"
 >
   <div
-    class="glass rounded-full px-2 py-2 flex items-center gap-1 whitespace-nowrap transition-all duration-500"
+    class="glass rounded-full px-1.5 sm:px-2 py-1.5 sm:py-2 flex items-center gap-0.5 sm:gap-1 whitespace-nowrap transition-all duration-500"
   >
     <a
       href="#top"
       data-cursor="link"
-      class="px-4 py-2 text-[13px] tracking-[0.18em] uppercase font-medium flex items-center gap-2 shrink-0"
+      class="px-2.5 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-[13px] tracking-[0.12em] sm:tracking-[0.18em] uppercase font-medium flex items-center gap-1.5 sm:gap-2 shrink-0"
     >
       <span
-        class="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse"
+        class="inline-block w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-white animate-pulse"
       ></span>
       {brandMain}
       <span
-        class="text-slate-500 font-mono normal-case tracking-normal text-[11px]"
+        class="text-slate-500 font-mono normal-case tracking-normal text-[9px] sm:text-[11px]"
       >
         / {brandRest}
       </span>
     </a>
-    <span class="w-px h-5 bg-white/10 mx-1 shrink-0"></span>
+    <span class="w-px h-4 sm:h-5 bg-white/10 mx-0.5 sm:mx-1 shrink-0"></span>
     <ul class="flex items-center shrink-0">
       {
         items.map((it) => (
@@ -50,7 +56,7 @@ const [brandMain, brandRest] = SITE_META.brand.split(" / ");
             <a
               href={it.href}
               data-cursor="link"
-              class="px-4 py-2 text-[13px] text-slate-300 hover:text-white transition-colors whitespace-nowrap"
+              class="px-2.5 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-[13px] text-slate-300 hover:text-white transition-colors whitespace-nowrap"
             >
               {it.label}
             </a>
