@@ -295,8 +295,8 @@ function initLiveClock() {
   const clockEl = document.getElementById("live-clock");
   if (!clockEl) return;
 
-  const fmt = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Europe/Madrid",
+  const fmt = new Intl.DateTimeFormat("es-AR", {
+    timeZone: "America/Argentina/Cordoba",
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -304,7 +304,8 @@ function initLiveClock() {
   });
 
   function tick() {
-    clockEl!.textContent = `${fmt.format(new Date())} CET`;
+    // ART = Argentina Time (UTC-3)
+    clockEl!.textContent = `${fmt.format(new Date())} ART`;
   }
   tick();
   setInterval(tick, 1000);

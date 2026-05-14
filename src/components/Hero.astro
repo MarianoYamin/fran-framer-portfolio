@@ -3,9 +3,14 @@
  * @archivo    Hero.astro
  * @modulo     Sección Hero
  * @descripcion Pantalla completa de bienvenida: video de fondo a opacity 0.22,
- *              meta superior (coordenadas + reel), eyebrow con guión,
- *              H1 cinematográfico en tres líneas (cada una con stagger letter-by-letter),
- *              CTA con flecha y bio breve.
+ *              meta superior (coordenadas + reel) en el flujo natural arriba,
+ *              eyebrow con guión, H1 cinematográfico en tres líneas (cada una
+ *              con stagger letter-by-letter), CTA con flecha y bio breve.
+ *
+ *              Estructura: section flex flex-col → top meta arriba (flex-shrink),
+ *              wrapper flex-1 con contenido alineado abajo (justify-end).
+ *              Esto evita que el H1 enorme empuje el top meta o se superponga
+ *              en viewports cortos.
  * @actualizado 2026-05-13
  */
 import StaggeredHeadline from "./StaggeredHeadline.astro";
@@ -14,7 +19,7 @@ import { CONTACT } from "../data/site";
 
 <section
   id="top"
-  class="relative min-h-[100svh] flex items-end pb-16 pt-36 px-6 lg:px-12 overflow-hidden"
+  class="relative min-h-[100svh] flex flex-col pt-24 pb-16 px-6 lg:px-12 overflow-hidden"
 >
   <!-- Video de fondo: muted, loop, opacity baja para que no compita con el texto -->
   <video
@@ -34,9 +39,10 @@ import { CONTACT } from "../data/site";
   >
   </div>
 
-  <!-- Meta superior: coordenadas y reel info, en mono uppercase, posicionado abajo del navbar -->
+  <!-- Meta superior: coordenadas y reel info en el flujo natural arriba. -->
+  <!-- Ya no es absolute para que NO se superponga con el contenido en viewports cortos. -->
   <div
-    class="reveal fade-in absolute top-32 left-6 lg:left-12 right-6 lg:right-12 flex items-start justify-between font-mono text-[11px] tracking-[0.2em] text-accent uppercase"
+    class="reveal fade-in relative z-10 flex items-start justify-between font-mono text-[11px] tracking-[0.2em] text-accent uppercase"
     style="animation-delay: 1.2s; animation-duration: 0.8s;"
     data-reveal-immediate
   >
@@ -46,11 +52,12 @@ import { CONTACT } from "../data/site";
     </div>
     <div class="text-right space-y-1 hidden sm:block">
       <div>Reel 2025 — Vol. IV</div>
-      <div class="text-slate-600">07 Películas · 14 Frames</div>
+      <div class="text-slate-600">06 Películas · 12 Frames</div>
     </div>
   </div>
 
-  <div class="relative w-full">
+  <!-- Wrapper que ocupa el resto del espacio y empuja el contenido al fondo -->
+  <div class="relative z-10 flex-1 flex flex-col justify-end w-full">
     <!-- Eyebrow con guión animado -->
     <div
       class="reveal fade-up font-mono text-[11px] tracking-[0.3em] text-accent uppercase mb-8 flex items-center gap-3"
@@ -108,7 +115,7 @@ import { CONTACT } from "../data/site";
               stroke="currentColor"
               stroke-width="1.5"
             >
-              <path d="M12 5v14M5 12l7 7 7-7"></path>
+              <path d="M12 5v14M5 12l7 7-7 7"></path>
             </svg>
           </span>
           <span class="text-[12px] tracking-[0.22em] uppercase font-medium">

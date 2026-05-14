@@ -46,8 +46,9 @@ const jsonLd = {
   address: {
     "@type": "PostalAddress",
     streetAddress: CONTACT.studio.address1,
-    addressLocality: "Barcelona",
-    addressCountry: "ES",
+    addressLocality: "Córdoba",
+    addressRegion: "Córdoba",
+    addressCountry: "AR",
   },
   sameAs: CONTACT.social.map((s) => s.href),
 };
@@ -69,7 +70,7 @@ const jsonLd = {
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale" content="es_AR" />
     <meta property="og:site_name" content={SITE_META.brand} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

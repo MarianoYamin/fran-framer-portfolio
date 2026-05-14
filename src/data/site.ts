@@ -67,6 +67,9 @@ export interface SiteContact {
 // ⚠️ Reemplazar imágenes y videos por los assets reales de Fran.
 //    Convención: poner videos optimizados en /public/projects/[id].mp4
 //    y posters en /public/projects/[id].jpg
+//
+// Layout: TODOS los proyectos comparten el mismo tamaño (1/3 de fila + 16:10)
+// para que el grid sea uniforme en filas de 3.
 export const PROJECTS: Project[] = [
   {
     id: "01",
@@ -75,8 +78,8 @@ export const PROJECTS: Project[] = [
     year: "2025",
     role: "Dirección · DP",
     tags: ["Cortometraje", "35mm"],
-    span: "lg:col-span-7 lg:row-span-2",
-    ratio: "aspect-[16/9]",
+    span: "lg:col-span-4",
+    ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop",
     video: "https://videos.pexels.com/video-files/2022395/2022395-uhd_2560_1440_30fps.mp4",
   },
@@ -87,8 +90,8 @@ export const PROJECTS: Project[] = [
     year: "2024",
     role: "Cinematografía",
     tags: ["Fashion Film"],
-    span: "lg:col-span-5 lg:row-span-2",
-    ratio: "aspect-[4/5]",
+    span: "lg:col-span-4",
+    ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?w=1200&q=80&auto=format&fit=crop",
     video: "https://videos.pexels.com/video-files/4763824/4763824-uhd_2732_1440_25fps.mp4",
   },
@@ -135,39 +138,31 @@ export const PROJECTS: Project[] = [
     year: "2023",
     role: "Cinematografía",
     tags: ["Publicidad"],
-    span: "lg:col-span-7",
-    ratio: "aspect-[21/9]",
+    span: "lg:col-span-4",
+    ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1500964757637-c85e8a162699?w=1800&q=80&auto=format&fit=crop",
     video: "https://videos.pexels.com/video-files/2103099/2103099-uhd_2560_1440_30fps.mp4",
   },
-  {
-    id: "07",
-    title: "Poder Suave",
-    client: "Velour",
-    year: "2023",
-    role: "Dirección",
-    tags: ["Fashion Film"],
-    span: "lg:col-span-5",
-    ratio: "aspect-[3/4]",
-    img: "https://images.unsplash.com/photo-1495567720989-cebdbdd97913?w=1200&q=80&auto=format&fit=crop",
-    video: "https://videos.pexels.com/video-files/5532765/5532765-uhd_2560_1440_25fps.mp4",
-  },
 ];
 
-// ── Lista de clientes para el marquee ─────────────────────────────────────
+// ── Términos cinematográficos para el marquee ─────────────────────────────
+// Palabras en español relacionadas al oficio de Fran (cine, fotografía,
+// edición). Funcionan como banda visual de identidad — se desplazan en serif
+// italic verde. Si más adelante hay marcas reales con las que trabajó,
+// reemplazar por nombres de marca.
 export const CLIENTS: string[] = [
-  "Aperture",
-  "Maison Noir",
-  "Atlas Athletic",
-  "Ostgard Co.",
-  "Velour",
-  "Hertz",
-  "Studio One",
-  "Polaris",
-  "Norte & Co.",
-  "Media Luz",
-  "Field Recordings",
-  "Echoform",
+  "Cinematografía",
+  "Dirección",
+  "Montaje",
+  "Color",
+  "Cámara",
+  "Anamórfico",
+  "Plano",
+  "Encuadre",
+  "Diseño Sonoro",
+  "Posproducción",
+  "Iluminación",
+  "Rodaje",
 ];
 
 // ── Servicios ─────────────────────────────────────────────────────────────
@@ -214,12 +209,12 @@ export const STATS: { value: string; label: string }[] = [
 
 // ── Datos de contacto (editá estos valores con los reales de Fran) ────────
 export const CONTACT: SiteContact = {
-  email: "hello@fran.film",
-  phone: "+34 600 000 000",
-  whatsapp: "https://wa.me/34600000000",
+  email: "franframer.creative@gmail.com",
+  phone: "+54 9 388 610 2508",
+  whatsapp: "https://wa.me/5493886102508",
   studio: {
-    address1: "Carrer de la Llum, 12",
-    address2: "08003 Barcelona, ES",
+    address1: "Córdoba Capital",
+    address2: "5000 Córdoba, Argentina",
     note: "Solo con cita previa",
   },
   social: [
@@ -228,8 +223,9 @@ export const CONTACT: SiteContact = {
     { label: "Letterboxd", href: "https://letterboxd.com/" },
     { label: "Are.na", href: "https://are.na/" },
   ],
-  coords: "N 41.3851°&nbsp;&nbsp;E 2.1734°",
-  location: "Barcelona — En localización",
+  // Coordenadas de Córdoba, Argentina (latitud sur · longitud oeste)
+  coords: "S 31.4135°&nbsp;&nbsp;O 64.1810°",
+  location: "Córdoba, AR — En localización",
 };
 
 // ── Meta del sitio (para SEO) ─────────────────────────────────────────────
@@ -239,7 +235,7 @@ export const SITE_META = {
   brand: "Fran / Framer",
   /** Slogan principal para meta description */
   description:
-    "Cineasta y director de fotografía con base en Barcelona. Dirección, cinematografía y postproducción para cortometrajes, marcas y documentales.",
+    "Cineasta y director de fotografía con base en Córdoba, Argentina. Dirección, cinematografía y postproducción para cortometrajes, marcas y documentales.",
   /** Frase del hero (sin animar, para SEO) */
   heroTagline: "Planos que contienen su aliento.",
   /** Idioma principal del sitio (ISO 639-1) */
