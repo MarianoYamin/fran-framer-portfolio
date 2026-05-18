@@ -148,16 +148,31 @@ const calLink = normalizeCalLink(INTEGRATIONS.calcomLink);
         />
       </label>
 
+      <!-- Teléfono (opcional) -->
+      <label class="block">
+        <span class="contact-label">Teléfono — opcional</span>
+        <input
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          class="contact-input"
+          placeholder="Por si preferís que te llamen / escriban"
+        />
+      </label>
+
       <!-- Tipo de proyecto -->
       <label class="block">
         <span class="contact-label">Tipo de proyecto</span>
         <select name="project_type" class="contact-input" required>
           <option value="" disabled selected>Elegí una categoría</option>
           <option value="Cortometraje">Cortometraje</option>
-          <option value="Brand Film / Marca">Brand Film / Marca</option>
           <option value="Videoclip">Videoclip</option>
-          <option value="Documental">Documental</option>
-          <option value="Postproducción">Sólo postproducción / edición</option>
+          <option value="Video para YouTube">Video para YouTube</option>
+          <option value="Pieza de marca">Pieza de marca</option>
+          <option value="Podcast">Podcast</option>
+          <option value="Cobertura de evento deportivo">
+            Cobertura de evento deportivo
+          </option>
           <option value="Otro">Otro</option>
         </select>
       </label>
