@@ -151,18 +151,15 @@ export const PROJECTS: Project[] = [
 // italic verde. Si más adelante hay marcas reales con las que trabajó,
 // reemplazar por nombres de marca.
 export const CLIENTS: string[] = [
-  "Cinematografía",
+  "Filmmaking",
   "Dirección",
+  "Animación",
   "Montaje",
-  "Color",
-  "Cámara",
-  "Anamórfico",
-  "Plano",
-  "Encuadre",
-  "Diseño Sonoro",
-  "Posproducción",
-  "Iluminación",
-  "Rodaje",
+  "Grabación",
+  "Sonido",
+  "Composición",
+  "Visual",
+  "Creativo",
 ];
 
 // ── Servicios ─────────────────────────────────────────────────────────────
