@@ -209,10 +209,10 @@ export const SERVICES: Service[] = [
 
 // ── Estadísticas de la sección "Sobre mí" ─────────────────────────────────
 export const STATS: { value: string; label: string }[] = [
-  { value: "07+", label: "Años" },
-  { value: "62", label: "Películas" },
-  { value: "18", label: "Festivales" },
-  { value: "04", label: "Premios" },
+  { value: "03+", label: "Años" },
+  { value: "04", label: "Proyectos" },
+  { value: "100+", label: "Reels" },
+  { value: "02", label: "Notas" },
 ];
 
 // ── Datos de contacto (editá estos valores con los reales de Fran) ────────
