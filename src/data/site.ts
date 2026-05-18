@@ -31,6 +31,12 @@ export interface Project {
   img: string;
   /** URL del video que se reproduce en hover (MP4, muted, loop) */
   video: string;
+  /** Categoría del proyecto — debe ser uno de PROJECT_CATEGORIES.
+   *  Define en qué grupo aparece en la página /trabajos. */
+  category: string;
+  /** Si es true, aparece también en el grid destacado de la home.
+   *  Si es false/ausente, solo aparece en /trabajos. */
+  featured?: boolean;
   /** URL externa del proyecto completo (Vimeo, YouTube, página propia) — opcional */
   href?: string;
 }
@@ -70,6 +76,12 @@ export interface SiteContact {
 //
 // Layout: TODOS los proyectos comparten el mismo tamaño (1/3 de fila + 16:10)
 // para que el grid sea uniforme en filas de 3.
+//
+// - `category`: agrupa el proyecto en la página /trabajos. Debe coincidir
+//   con uno de PROJECT_CATEGORIES (abajo).
+// - `featured: true`: además aparece en el grid destacado de la home.
+//   Si Fran tiene muchos proyectos, marca solo los mejores como featured
+//   para la home; el resto se ve igual en /trabajos.
 export const PROJECTS: Project[] = [
   {
     id: "01",
@@ -78,6 +90,8 @@ export const PROJECTS: Project[] = [
     year: "2025",
     role: "Dirección · DP",
     tags: ["Cortometraje", "35mm"],
+    category: "Cortometraje",
+    featured: true,
     span: "lg:col-span-4",
     ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop",
@@ -89,7 +103,9 @@ export const PROJECTS: Project[] = [
     client: "Maison Noir",
     year: "2024",
     role: "Cinematografía",
-    tags: ["Fashion Film"],
+    tags: ["Pieza de marca"],
+    category: "Pieza de marca",
+    featured: true,
     span: "lg:col-span-4",
     ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?w=1200&q=80&auto=format&fit=crop",
@@ -101,7 +117,9 @@ export const PROJECTS: Project[] = [
     client: "Ostgard Co.",
     year: "2024",
     role: "Dirección",
-    tags: ["Documental"],
+    tags: ["YouTube"],
+    category: "Video para YouTube",
+    featured: true,
     span: "lg:col-span-4",
     ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1600&q=80&auto=format&fit=crop",
@@ -113,7 +131,9 @@ export const PROJECTS: Project[] = [
     client: "Atlas Athletic",
     year: "2024",
     role: "Dirección · Edición",
-    tags: ["Brand Film"],
+    tags: ["Pieza de marca"],
+    category: "Pieza de marca",
+    featured: true,
     span: "lg:col-span-4",
     ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600&q=80&auto=format&fit=crop",
@@ -126,6 +146,8 @@ export const PROJECTS: Project[] = [
     year: "2023",
     role: "Dirección · DP · Edición",
     tags: ["Videoclip"],
+    category: "Videoclip",
+    featured: true,
     span: "lg:col-span-4",
     ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1600&q=80&auto=format&fit=crop",
@@ -137,12 +159,28 @@ export const PROJECTS: Project[] = [
     client: "Hertz / Studio One",
     year: "2023",
     role: "Cinematografía",
-    tags: ["Publicidad"],
+    tags: ["Evento deportivo"],
+    category: "Cobertura de evento deportivo",
+    featured: true,
     span: "lg:col-span-4",
     ratio: "aspect-[16/10]",
     img: "https://images.unsplash.com/photo-1500964757637-c85e8a162699?w=1800&q=80&auto=format&fit=crop",
     video: "https://videos.pexels.com/video-files/2103099/2103099-uhd_2560_1440_30fps.mp4",
   },
+];
+
+// ── Categorías de proyectos ───────────────────────────────────────────────
+// Definen el orden y los grupos en la página /trabajos. El campo `category`
+// de cada proyecto debe coincidir con uno de estos valores. Para agregar o
+// quitar categorías, editá esta lista (y asigná la categoría correcta a
+// cada proyecto arriba).
+export const PROJECT_CATEGORIES: string[] = [
+  "Cortometraje",
+  "Videoclip",
+  "Video para YouTube",
+  "Pieza de marca",
+  "Podcast",
+  "Cobertura de evento deportivo",
 ];
 
 // ── Términos cinematográficos para el marquee ─────────────────────────────

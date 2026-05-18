@@ -1,0 +1,124 @@
+---
+/**
+ * @archivo    trabajos.astro
+ * @modulo     Página /trabajos — archivo completo
+ * @descripcion Lista TODOS los proyectos agrupados por categoría, con el
+ *              mismo diseño, grilla y animaciones que el grid destacado de
+ *              la home. Reutiliza ProjectCard, Layout, Nav, Cursor y el
+ *              mismo script de interacciones.
+ *
+ *              Las categorías y su orden salen de PROJECT_CATEGORIES en
+ *              site.ts. Cada proyecto cae en su grupo según su campo
+ *              `category`. Las categorías sin proyectos no se renderizan.
+ * @actualizado 2026-05-14
+ */
+import Layout from "../layouts/Layout.astro";
+import Cursor from "../components/Cursor.astro";
+import Nav from "../components/Nav.astro";
+import FloatingContact from "../components/FloatingContact.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { PROJECTS, PROJECT_CATEGORIES } from "../data/site";
+
+const totalAll = PROJECTS.length;
+
+// Agrupa los proyectos por categoría respetando el orden de
+// PROJECT_CATEGORIES. Sólo se quedan las categorías que tienen al menos
+// un proyecto. Si algún proyecto tiene una categoría que no está en la
+// lista, se agrupa igual al final bajo "Otros".
+const grouped = PROJECT_CATEGORIES.map((cat) => ({
+  category: cat,
+  projects: PROJECTS.filter((p) => p.category === cat),
+})).filter((g) => g.projects.length > 0);
+
+const knownCats = new Set(PROJECT_CATEGORIES);
+const orphans = PROJECTS.filter((p) => !knownCats.has(p.category));
+if (orphans.length > 0) {
+  grouped.push({ category: "Otros", projects: orphans });
+}
+---
+
+<Layout title="Trabajos" pathname="/trabajos">
+  <Cursor />
+  <Nav />
+
+  <main class="pt-32 lg:pt-44 pb-28 lg:pb-40">
+    <!-- Header de la página ─────────────────────────────────────────────-->
+    <div class="px-6 lg:px-12 mb-20 lg:mb-28">
+      <div
+        class="reveal fade-up font-mono text-[11px] tracking-[0.3em] uppercase text-accent mb-6 flex items-center gap-3"
+        style="animation-duration: 0.7s;"
+        data-reveal-immediate
+      >
+        <span class="w-8 h-px bg-accent"></span>
+        Archivo completo — {totalAll} trabajos
+      </div>
+
+      <div class="flex items-end justify-between gap-6 flex-wrap">
+        <h1
+          class="reveal fade-up font-serif text-6xl md:text-8xl lg:text-9xl tracking-[-0.025em] leading-[0.92]"
+          style="animation-duration: 0.9s;"
+          data-reveal-immediate
+        >
+          Todos los <span class="italic text-accent">trabajos.</span>
+        </h1>
+
+        <a
+          href="/"
+          data-cursor="link"
+          class="reveal fade-in inline-flex items-center gap-2 link-underline text-[12px] tracking-[0.22em] uppercase text-slate-300"
+          style="animation-delay: 0.3s; animation-duration: 0.7s;"
+          data-reveal-immediate
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path d="M19 12H5M11 19l-7-7 7-7"></path>
+          </svg>
+          Volver al inicio
+        </a>
+      </div>
+    </div>
+
+    <!-- Secciones por categoría ─────────────────────────────────────────-->
+    {
+      grouped.map((group) => (
+        <section class="px-6 lg:px-12 mb-24 lg:mb-32">
+          {/* Eyebrow de la categoría — mismo estilo que las otras secciones */}
+          <div class="flex items-end justify-between mb-10 lg:mb-14">
+            <div
+              class="reveal fade-up font-mono text-[11px] tracking-[0.3em] uppercase text-accent flex items-center gap-3"
+              style="animation-duration: 0.7s;"
+            >
+              <span class="w-8 h-px bg-accent" />
+              {group.category}
+            </div>
+            <div class="reveal fade-up font-mono text-[10px] tracking-[0.22em] uppercase text-slate-500">
+              {group.projects.length}
+              {group.projects.length === 1 ? " trabajo" : " trabajos"}
+            </div>
+          </div>
+
+          {/* Misma grilla que la home: 12 col en desktop, cards 1/3 + 16:10 */}
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 auto-rows-auto">
+            {group.projects.map((p, i) => (
+              <ProjectCard p={p} index={i} total={totalAll} />
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </main>
+
+  <FloatingContact />
+
+  <!-- Mismo script de interacciones que la home (cursor, tilt, hover-play,
+       reveals). El loader se omite a propósito en subpáginas. -->
+  <script>
+    import "../scripts/main.ts";
+  </script>
+</Layout>
