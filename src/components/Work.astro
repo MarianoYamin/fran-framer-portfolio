@@ -2,22 +2,29 @@
 /**
  * @archivo    Work.astro
  * @modulo     Sección Work / The Reel (home)
- * @descripcion Grid destacado de la home. Muestra SÓLO los proyectos
- *              marcados como `featured: true` en site.ts. El botón
- *              "Ver trabajos" lleva a /trabajos donde están TODOS los
- *              proyectos agrupados por categoría.
+ * @descripcion Grid destacado de la home. Lee los proyectos de la Content
+ *              Collection (src/content/projects/*.json) y muestra SÓLO los
+ *              marcados con featured: true. El botón "Ver trabajos" lleva a
+ *              /trabajos donde están TODOS agrupados por categoría.
  * @actualizado 2026-05-14
  */
+import { getCollection } from "astro:content";
 import ProjectCard from "./ProjectCard.astro";
-import { PROJECTS } from "../data/site";
+
+// Trae todos los proyectos y los ordena por `order` (menor primero),
+// desempatando por título alfabético.
+const all = (await getCollection("projects")).sort((a, b) => {
+  const byOrder = (a.data.order ?? 0) - (b.data.order ?? 0);
+  return byOrder !== 0 ? byOrder : a.data.title.localeCompare(b.data.title);
+});
+
+const totalAll = all.length;
 
 // Solo los destacados van en la home. Si ninguno está marcado featured,
 // caemos a mostrar todos (para que la home nunca quede vacía).
-const featured = PROJECTS.filter((p) => p.featured);
-const visible = featured.length > 0 ? featured : PROJECTS;
+const featured = all.filter((p) => p.data.featured);
+const visible = featured.length > 0 ? featured : all;
 const total = visible.length;
-// Conteo total real para el botón "Ver trabajos (N)"
-const totalAll = PROJECTS.length;
 ---
 
 <section id="work" class="px-6 lg:px-12 py-28 lg:py-40 relative">
@@ -58,9 +65,13 @@ const totalAll = PROJECTS.length;
     </a>
   </div>
 
-  <!-- Grid de 12 columnas en desktop, las cards definen su span/ratio -->
+  <!-- Misma grilla 12-col que /trabajos -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 auto-rows-auto">
-    {visible.map((p, i) => <ProjectCard p={p} index={i} total={total} />)}
+    {
+      visible.map((entry, i) => (
+        <ProjectCard p={entry.data} index={i} total={total} />
+      ))
+    }
   </div>
 
   <!-- CTA "Ver trabajos" también en mobile (el de arriba está hidden md:) -->

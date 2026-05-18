@@ -12,26 +12,32 @@
  *              `category`. Las categorías sin proyectos no se renderizan.
  * @actualizado 2026-05-14
  */
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import Cursor from "../components/Cursor.astro";
 import Nav from "../components/Nav.astro";
 import FloatingContact from "../components/FloatingContact.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import { PROJECTS, PROJECT_CATEGORIES } from "../data/site";
+import { PROJECT_CATEGORIES } from "../data/site";
 
-const totalAll = PROJECTS.length;
+// Trae todos los proyectos ordenados por `order` (menor primero),
+// desempatando por título.
+const all = (await getCollection("projects")).sort((a, b) => {
+  const byOrder = (a.data.order ?? 0) - (b.data.order ?? 0);
+  return byOrder !== 0 ? byOrder : a.data.title.localeCompare(b.data.title);
+});
+const totalAll = all.length;
 
-// Agrupa los proyectos por categoría respetando el orden de
-// PROJECT_CATEGORIES. Sólo se quedan las categorías que tienen al menos
-// un proyecto. Si algún proyecto tiene una categoría que no está en la
-// lista, se agrupa igual al final bajo "Otros".
+// Agrupa por categoría respetando el orden de PROJECT_CATEGORIES.
+// Sólo se quedan las categorías con al menos un proyecto. Proyectos con
+// una categoría no listada se agrupan al final bajo "Otros".
 const grouped = PROJECT_CATEGORIES.map((cat) => ({
   category: cat,
-  projects: PROJECTS.filter((p) => p.category === cat),
+  projects: all.filter((p) => p.data.category === cat),
 })).filter((g) => g.projects.length > 0);
 
 const knownCats = new Set(PROJECT_CATEGORIES);
-const orphans = PROJECTS.filter((p) => !knownCats.has(p.category));
+const orphans = all.filter((p) => !knownCats.has(p.data.category));
 if (orphans.length > 0) {
   grouped.push({ category: "Otros", projects: orphans });
 }
@@ -105,8 +111,8 @@ if (orphans.length > 0) {
 
           {/* Misma grilla que la home: 12 col en desktop, cards 1/3 + 16:10 */}
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-4 auto-rows-auto">
-            {group.projects.map((p, i) => (
-              <ProjectCard p={p} index={i} total={totalAll} />
+            {group.projects.map((entry, i) => (
+              <ProjectCard p={entry.data} index={i} total={totalAll} />
             ))}
           </div>
         </section>

@@ -1,0 +1,12 @@
+{
+  "title": "Flor Estática",
+  "client": "Maison Noir",
+  "year": "2024",
+  "role": "Cinematografía",
+  "tags": ["Pieza de marca"],
+  "category": "Pieza de marca",
+  "featured": true,
+  "order": 2,
+  "poster": "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?w=1200&q=80&auto=format&fit=crop",
+  "video": "https://videos.pexels.com/video-files/4763824/4763824-uhd_2732_1440_25fps.mp4"
+}

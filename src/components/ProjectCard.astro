@@ -6,37 +6,58 @@
  *              tilt 3D al mover el mouse. Bordes cuadrados (sin radius)
  *              para evocar un marco de cine. La lógica de tilt y hover-play
  *              vive en /src/scripts/main.ts (función initProjectCards).
- * @actualizado 2026-05-13
+ *
+ *              Recibe los datos de un proyecto de la Content Collection
+ *              (src/content/projects/*.json). El layout (span/ratio) es
+ *              uniforme y se define acá, no en el contenido editable.
+ * @actualizado 2026-05-14
  */
-import type { Project } from "../data/site";
+interface ProjectData {
+  title: string;
+  client: string;
+  year: string;
+  role: string;
+  tags: string[];
+  category: string;
+  featured?: boolean;
+  order?: number;
+  poster: string;
+  video: string;
+  href?: string;
+}
 
 interface Props {
-  p: Project;
-  /** Índice dentro del grid (para escalonar el reveal en grupos de 3) */
+  p: ProjectData;
+  /** Índice dentro del grid (reveal escalonado + número "01 / NN") */
   index: number;
-  /** Total de proyectos — se usa para el indicador "01 / 07" */
+  /** Total de proyectos — para el indicador "01 / NN" */
   total: number;
 }
 
 const { p, index, total } = Astro.props;
 
+// Layout uniforme para todas las cards (grid de 3 por fila, ratio 16:10)
+const SPAN = "lg:col-span-4";
+const RATIO = "aspect-[16/10]";
+
 // Stagger del reveal: 0, 0.08, 0.16, 0, 0.08, 0.16... (cada 3 reinicia)
 const revealDelay = (index % 3) * 0.08;
+// Número visible "01 / NN" derivado del índice (ya no de un id manual)
+const num = String(index + 1).padStart(2, "0");
+const totalStr = String(total).padStart(2, "0");
 ---
 
 <a
   href={p.href ?? "#"}
   data-cursor="play"
-  class={`group project-card reveal fade-up relative block ${p.span}`}
+  class={`group project-card reveal fade-up relative block ${SPAN}`}
   style={`animation-delay: ${revealDelay}s; animation-duration: 0.9s;`}
 >
   <!-- Wrapper que recibe el transform de tilt 3D -->
-  <div
-    class={`tilt-card relative overflow-hidden bg-[#111] ${p.ratio} w-full`}
-  >
+  <div class={`tilt-card relative overflow-hidden bg-[#111] ${RATIO} w-full`}>
     <!-- Poster (imagen estática que se ve por defecto) -->
     <img
-      src={p.img}
+      src={p.poster}
       alt={`${p.title} — ${p.client}`}
       loading="lazy"
       class="poster-img absolute inset-0 w-full h-full object-cover"
@@ -62,7 +83,7 @@ const revealDelay = (index % 3) * 0.08;
     <div
       class="absolute top-5 left-5 font-mono text-[11px] tracking-[0.22em] text-white/80 uppercase"
     >
-      {p.id} / {total.toString().padStart(2, "0")}
+      {num} / {totalStr}
     </div>
 
     <!-- Tags como píldoras arriba a la derecha -->

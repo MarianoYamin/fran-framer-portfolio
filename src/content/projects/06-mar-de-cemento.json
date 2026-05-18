@@ -1,0 +1,12 @@
+{
+  "title": "Mar de Cemento",
+  "client": "Hertz / Studio One",
+  "year": "2023",
+  "role": "Cinematografía",
+  "tags": ["Evento deportivo"],
+  "category": "Cobertura de evento deportivo",
+  "featured": true,
+  "order": 6,
+  "poster": "https://images.unsplash.com/photo-1500964757637-c85e8a162699?w=1800&q=80&auto=format&fit=crop",
+  "video": "https://videos.pexels.com/video-files/2103099/2103099-uhd_2560_1440_30fps.mp4"
+}

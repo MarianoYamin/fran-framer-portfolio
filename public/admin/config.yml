@@ -1,0 +1,110 @@
+# ─────────────────────────────────────────────────────────────────────────
+# Configuración de Decap CMS — panel de administración de Fran
+#
+# Fran entra a /admin, se loguea con GitHub (vía el OAuth proxy en /api),
+# y puede crear / editar / borrar proyectos. Cada proyecto es un archivo
+# JSON en src/content/projects/ que el sitio lee con Astro Content
+# Collections. Al guardar, Decap commitea a la rama main → Vercel
+# redeploya solo en ~20s.
+# ─────────────────────────────────────────────────────────────────────────
+
+backend:
+  name: github
+  repo: MarianoYamin/fran-framer-portfolio
+  branch: main
+  # OAuth proxy propio (funciones serverless en /api de este mismo deploy)
+  base_url: https://fran-framer-portfolio.vercel.app
+  auth_endpoint: api/auth
+
+# Idioma del panel
+locale: "es"
+
+# Carpeta donde Decap sube las imágenes (posters). Se commitean al repo.
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# Mensaje de commit cuando Fran guarda cambios
+site_url: https://fran-framer-portfolio.vercel.app
+display_url: https://fran-framer-portfolio.vercel.app
+
+collections:
+  - name: "projects"
+    label: "Proyectos"
+    label_singular: "Proyecto"
+    description: "Tus trabajos. Se muestran en /trabajos agrupados por categoría. Marcá 'Destacado' para que además aparezca en la home."
+    folder: "src/content/projects"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    # Nombre del archivo a partir del título (ej: mi-proyecto.json)
+    slug: "{{slug}}"
+    summary: "{{title}} — {{category}}"
+    sortable_fields: ["order", "title", "year"]
+    fields:
+      - label: "Título"
+        name: "title"
+        widget: "string"
+        hint: "Nombre del proyecto"
+
+      - label: "Cliente / Marca"
+        name: "client"
+        widget: "string"
+        hint: "Para quién fue. Si es personal, poné 'Autoeditado' o tu nombre."
+
+      - label: "Año"
+        name: "year"
+        widget: "string"
+        pattern: ['^\d{4}$', "Tiene que ser un año de 4 dígitos (ej: 2026)"]
+
+      - label: "Tu rol"
+        name: "role"
+        widget: "string"
+        hint: "Ej: Dirección · Edición"
+
+      - label: "Categoría"
+        name: "category"
+        widget: "select"
+        options:
+          - "Cortometraje"
+          - "Videoclip"
+          - "Video para YouTube"
+          - "Pieza de marca"
+          - "Podcast"
+          - "Cobertura de evento deportivo"
+        hint: "Define en qué grupo aparece dentro de /trabajos"
+
+      - label: "Etiquetas"
+        name: "tags"
+        widget: "list"
+        default: []
+        hint: "1 o 2 palabras cortas que se muestran como píldoras (ej: 4K, Documental)"
+
+      - label: "Destacado en la home"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Si está activado, además de /trabajos aparece en el grid principal de la home"
+
+      - label: "Orden"
+        name: "order"
+        widget: "number"
+        default: 0
+        value_type: "int"
+        hint: "Menor número = aparece primero. Para empates, ordena por título."
+
+      - label: "Imagen (poster)"
+        name: "poster"
+        widget: "image"
+        hint: "La imagen que se ve antes de pasar el mouse. Horizontal, buena calidad."
+
+      - label: "Video (link)"
+        name: "video"
+        widget: "string"
+        hint: "Link directo a un archivo .mp4 (el que se reproduce al pasar el mouse). Tiene que ser un .mp4 directo, no un link de página de YouTube/Vimeo."
+
+      - label: "Link al proyecto completo (opcional)"
+        name: "href"
+        widget: "string"
+        required: false
+        hint: "A dónde lleva al hacer click en la card (tu video en YouTube/Vimeo). Si lo dejás vacío, la card no es clickeable."

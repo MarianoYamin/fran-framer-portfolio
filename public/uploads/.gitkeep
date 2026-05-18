@@ -1,0 +1,3 @@
+# Carpeta donde Decap CMS sube las imágenes (posters de proyectos).
+# Este archivo solo existe para que la carpeta esté en el repo desde el
+# inicio. Cuando Fran suba imágenes desde /admin, se commitean acá.

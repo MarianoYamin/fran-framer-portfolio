@@ -10,36 +10,10 @@
  */
 
 // ── Tipos ─────────────────────────────────────────────────────────────────
-export interface Project {
-  /** ID en formato "01", "02"... (también define el orden) */
-  id: string;
-  /** Título del proyecto */
-  title: string;
-  /** Cliente o marca para la que se hizo */
-  client: string;
-  /** Año de producción */
-  year: string;
-  /** Rol de Fran en el proyecto (ej: "Dirección · DP") */
-  role: string;
-  /** Etiquetas que se muestran como píldoras (max 2 recomendado) */
-  tags: string[];
-  /** Clases tailwind para definir cuántas columnas/filas ocupa en el grid */
-  span: string;
-  /** Aspect ratio del card (clase tailwind, ej: "aspect-[16/9]") */
-  ratio: string;
-  /** URL de la imagen poster (estática) */
-  img: string;
-  /** URL del video que se reproduce en hover (MP4, muted, loop) */
-  video: string;
-  /** Categoría del proyecto — debe ser uno de PROJECT_CATEGORIES.
-   *  Define en qué grupo aparece en la página /trabajos. */
-  category: string;
-  /** Si es true, aparece también en el grid destacado de la home.
-   *  Si es false/ausente, solo aparece en /trabajos. */
-  featured?: boolean;
-  /** URL externa del proyecto completo (Vimeo, YouTube, página propia) — opcional */
-  href?: string;
-}
+// NOTA: Los proyectos ya NO viven acá. Se migraron a una Content Collection
+// (src/content/projects/*.json) para que el panel Decap CMS pueda crearlos,
+// editarlos y borrarlos. El schema está en src/content.config.ts.
+// Acá solo queda PROJECT_CATEGORIES (la lista de categorías, más abajo).
 
 export interface Service {
   /** Número en formato "01", "02"... */
@@ -68,106 +42,6 @@ export interface SiteContact {
   /** Subtítulo del header en hero (ej: "Barcelona — En localización") */
   location: string;
 }
-
-// ── Proyectos ─────────────────────────────────────────────────────────────
-// ⚠️ Reemplazar imágenes y videos por los assets reales de Fran.
-//    Convención: poner videos optimizados en /public/projects/[id].mp4
-//    y posters en /public/projects/[id].jpg
-//
-// Layout: TODOS los proyectos comparten el mismo tamaño (1/3 de fila + 16:10)
-// para que el grid sea uniforme en filas de 3.
-//
-// - `category`: agrupa el proyecto en la página /trabajos. Debe coincidir
-//   con uno de PROJECT_CATEGORIES (abajo).
-// - `featured: true`: además aparece en el grid destacado de la home.
-//   Si Fran tiene muchos proyectos, marca solo los mejores como featured
-//   para la home; el resto se ve igual en /trabajos.
-export const PROJECTS: Project[] = [
-  {
-    id: "01",
-    title: "Luz que Queda",
-    client: "Aperture Films",
-    year: "2025",
-    role: "Dirección · DP",
-    tags: ["Cortometraje", "35mm"],
-    category: "Cortometraje",
-    featured: true,
-    span: "lg:col-span-4",
-    ratio: "aspect-[16/10]",
-    img: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop",
-    video: "https://videos.pexels.com/video-files/2022395/2022395-uhd_2560_1440_30fps.mp4",
-  },
-  {
-    id: "02",
-    title: "Flor Estática",
-    client: "Maison Noir",
-    year: "2024",
-    role: "Cinematografía",
-    tags: ["Pieza de marca"],
-    category: "Pieza de marca",
-    featured: true,
-    span: "lg:col-span-4",
-    ratio: "aspect-[16/10]",
-    img: "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?w=1200&q=80&auto=format&fit=crop",
-    video: "https://videos.pexels.com/video-files/4763824/4763824-uhd_2732_1440_25fps.mp4",
-  },
-  {
-    id: "03",
-    title: "Rumbo Norte",
-    client: "Ostgard Co.",
-    year: "2024",
-    role: "Dirección",
-    tags: ["YouTube"],
-    category: "Video para YouTube",
-    featured: true,
-    span: "lg:col-span-4",
-    ratio: "aspect-[16/10]",
-    img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1600&q=80&auto=format&fit=crop",
-    video: "https://videos.pexels.com/video-files/3015527/3015527-uhd_2560_1440_24fps.mp4",
-  },
-  {
-    id: "04",
-    title: "Aguantar el Pulso",
-    client: "Atlas Athletic",
-    year: "2024",
-    role: "Dirección · Edición",
-    tags: ["Pieza de marca"],
-    category: "Pieza de marca",
-    featured: true,
-    span: "lg:col-span-4",
-    ratio: "aspect-[16/10]",
-    img: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600&q=80&auto=format&fit=crop",
-    video: "https://videos.pexels.com/video-files/4754030/4754030-uhd_2560_1440_25fps.mp4",
-  },
-  {
-    id: "05",
-    title: "Horas Quietas",
-    client: "Autoeditado",
-    year: "2023",
-    role: "Dirección · DP · Edición",
-    tags: ["Videoclip"],
-    category: "Videoclip",
-    featured: true,
-    span: "lg:col-span-4",
-    ratio: "aspect-[16/10]",
-    img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1600&q=80&auto=format&fit=crop",
-    video: "https://videos.pexels.com/video-files/3045163/3045163-uhd_2560_1440_25fps.mp4",
-  },
-  {
-    id: "06",
-    title: "Mar de Cemento",
-    client: "Hertz / Studio One",
-    year: "2023",
-    role: "Cinematografía",
-    tags: ["Evento deportivo"],
-    category: "Cobertura de evento deportivo",
-    featured: true,
-    span: "lg:col-span-4",
-    ratio: "aspect-[16/10]",
-    img: "https://images.unsplash.com/photo-1500964757637-c85e8a162699?w=1800&q=80&auto=format&fit=crop",
-    video: "https://videos.pexels.com/video-files/2103099/2103099-uhd_2560_1440_30fps.mp4",
-  },
-];
 
 // ── Categorías de proyectos ───────────────────────────────────────────────
 // Definen el orden y los grupos en la página /trabajos. El campo `category`
