@@ -225,7 +225,7 @@ export const CONTACT: SiteContact = {
   ],
   // Coordenadas de Córdoba, Argentina (latitud sur · longitud oeste)
   coords: "S 31.4135°&nbsp;&nbsp;O 64.1810°",
-  location: "Córdoba, AR — En localización",
+  location: "Córdoba, AR",
 };
 
 // ── Integraciones de terceros (formulario + agenda) ──────────────────────

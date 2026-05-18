@@ -51,8 +51,7 @@ import { CONTACT } from "../data/site";
       <div class="text-slate-600">{CONTACT.location}</div>
     </div>
     <div class="text-right space-y-1 hidden sm:block">
-      <div>Reel 2025 — Vol. IV</div>
-      <div class="text-slate-600">06 Películas · 12 Frames</div>
+      <div>Reel 2026 — Vol. I</div>
     </div>
   </div>
 
@@ -60,26 +59,31 @@ import { CONTACT } from "../data/site";
   <div class="relative z-10 flex-1 flex flex-col justify-end w-full">
     <!-- Eyebrow con guión animado -->
     <div
-      class="reveal fade-up font-mono text-[11px] tracking-[0.3em] text-accent uppercase mb-8 flex items-center gap-3"
+      class="reveal fade-up font-mono text-[10px] sm:text-[11px] tracking-[0.18em] sm:tracking-[0.25em] text-accent uppercase mb-8 flex items-center gap-3 leading-[1.6]"
       style="animation-delay: 0.7s; animation-duration: 0.7s;"
       data-reveal-immediate
     >
-      <span class="w-8 h-px bg-accent"></span>
-      Cineasta · Director de Fotografía
+      <span class="w-8 h-px bg-accent shrink-0"></span>
+      Filmmaker · Editor de Videos · Diseñador y Animador Digital
     </div>
 
-    <!-- H1 cinemático en 3 líneas, cada una con stagger letra por letra -->
+    <!-- H1 cinemático en 4 líneas, cada una con stagger letra por letra.
+         Frase: "El encuadre exacto donde vive tu historia."
+         La línea italic verde ("exacto") es el acento de marca. -->
     <h1
-      class="font-serif font-medium leading-[0.92] tracking-[-0.02em] text-[clamp(56px,12vw,200px)]"
+      class="font-serif font-medium leading-[0.92] tracking-[-0.02em] text-[clamp(48px,11vw,180px)]"
     >
       <span class="block overflow-hidden">
-        <StaggeredHeadline text="Planos que" delay={0.6} />
+        <StaggeredHeadline text="El encuadre" delay={0.5} />
       </span>
       <span class="block overflow-hidden italic text-accent">
-        <StaggeredHeadline text="contienen su" delay={0.95} />
+        <StaggeredHeadline text="exacto" delay={0.75} />
       </span>
       <span class="block overflow-hidden">
-        <StaggeredHeadline text="aliento." delay={1.25} />
+        <StaggeredHeadline text="donde vive" delay={1.0} />
+      </span>
+      <span class="block overflow-hidden">
+        <StaggeredHeadline text="tu historia." delay={1.25} />
       </span>
     </h1>
 
@@ -90,11 +94,13 @@ import { CONTACT } from "../data/site";
       data-reveal-immediate
     >
       <p
-        class="col-span-12 lg:col-span-5 text-slate-300 text-[15px] leading-relaxed max-w-md"
+        class="col-span-12 lg:col-span-6 text-slate-300 text-[15px] leading-relaxed max-w-xl"
       >
-        Fran es un cineasta independiente que trabaja en la intersección de la
-        narrativa, la marca y el documental — con una mirada atenta a la luz,
-        al silencio y al instante justo antes de que algo suceda.
+        Soy un creador visual enfocado en resolver desafíos con agilidad.
+        Desde la dirección de cortometrajes hasta la ideación de reels de
+        alto impacto, combino una fuerte narrativa visual con técnicas
+        profesionales de iluminación y composición para transmitir
+        exactamente lo que tu proyecto necesita.
       </p>
       <div
         class="col-span-12 lg:col-span-3 lg:col-start-9 flex lg:justify-end gap-3"
