@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 // URL de producción del sitio — actualizar cuando se confirme el dominio final
-const SITE_URL = 'https://fran-framer.com';
+const SITE_URL = 'https://fran-framer-portfolio.vercel.app';
 
 export default defineConfig({
   site: SITE_URL,

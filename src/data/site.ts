@@ -273,15 +273,17 @@ export const SITE_META = {
   name: "Fran Framer",
   /** Aparece en <title> y como brand */
   brand: "Fran / Framer",
-  /** Slogan principal para meta description */
+  /** Slogan principal para meta description (lo que se ve al compartir el link) */
   description:
-    "Cineasta y director de fotografía con base en Córdoba, Argentina. Dirección, cinematografía y postproducción para cortometrajes, marcas y documentales.",
+    "Fran — Filmmaker, editor de video y diseñador digital en Córdoba, Argentina. Creo piezas visuales con eficacia: dirección, grabación, edición y animación.",
   /** Frase del hero (sin animar, para SEO) */
-  heroTagline: "Planos que contienen su aliento.",
+  heroTagline: "El encuadre exacto donde vive tu historia.",
   /** Idioma principal del sitio (ISO 639-1) */
   lang: "es",
-  /** URL canónica de producción */
-  url: "https://fran-framer.com",
+  /** URL canónica de producción.
+   *  Cuando Fran tenga un dominio propio, cambiar acá (y en astro.config.mjs
+   *  y public/robots.txt). Por ahora apunta al deploy real de Vercel. */
+  url: "https://fran-framer-portfolio.vercel.app",
   /** Imagen para Open Graph y Twitter cards (relativa a /public) */
   ogImage: "/og-image.jpg",
   /** Twitter handle, sin @ — opcional */

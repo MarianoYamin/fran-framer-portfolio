@@ -28,7 +28,7 @@ const {
 
 const fullTitle = title
   ? `${title} — ${SITE_META.brand}`
-  : `${SITE_META.brand} — Cineasta · Director de Fotografía`;
+  : `${SITE_META.brand} — Filmmaker · Editor · Diseñador Digital`;
 
 const canonical = new URL(pathname, SITE_META.url).toString();
 const ogImageUrl = new URL(SITE_META.ogImage, SITE_META.url).toString();
@@ -38,7 +38,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: SITE_META.name,
-  jobTitle: "Cineasta · Director de Fotografía",
+  jobTitle: "Filmmaker · Editor de Video · Diseñador y Animador Digital",
   description: SITE_META.description,
   url: SITE_META.url,
   email: CONTACT.email,
