@@ -1,12 +1,15 @@
 {
-  "title": "Luz que Queda",
-  "client": "Aperture Films",
-  "year": "2025",
-  "role": "Dirección · DP",
-  "tags": ["Cortometraje", "35mm"],
-  "category": "Cortometraje",
+  "client": "Mariano Yamin",
+  "poster": "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop",
   "featured": true,
   "order": 1,
-  "poster": "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop",
-  "video": "https://videos.pexels.com/video-files/2022395/2022395-uhd_2560_1440_30fps.mp4"
+  "role": "Dirección · DP",
+  "title": "Luz que Queda",
+  "tags": [
+    "Cortometraje",
+    "35mm"
+  ],
+  "video": "https://videos.pexels.com/video-files/2022395/2022395-uhd_2560_1440_30fps.mp4",
+  "year": "2026",
+  "category": "Cortometraje"
 }
