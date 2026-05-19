@@ -177,7 +177,7 @@ export const INTEGRATIONS = {
 
   /** Link de Cal.com — acepta URL completa o sólo "usuario/evento".
    *  Ej: "https://cal.com/franframer/30min" o "franframer/30min". */
-  calcomLink: "franframer/30min",
+  calcomLink: "franframer/reunion-30-minutos",
 };
 
 // ── Meta del sitio (para SEO) ─────────────────────────────────────────────

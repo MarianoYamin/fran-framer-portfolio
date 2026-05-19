@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Panel de administración — Fran Framer</title>
+    <!-- Ruta ABSOLUTA del config — evita el error 404 cuando se entra a
+         /admin sin barra final (Decap por defecto lo busca relativo). -->
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
-    <!-- Decap CMS se carga desde su CDN. Lee la configuración de config.yml
-         (mismo directorio). El panel queda en /admin -->
+    <!-- Decap CMS se carga desde su CDN. Lee la configuración del
+         config.yml indicado arriba. El panel queda en /admin -->
     <script src="https://unpkg.com/decap-cms@^3.8.4/dist/decap-cms.js"></script>
   </body>
 </html>
