@@ -183,8 +183,8 @@ export const INTEGRATIONS = {
 // ── Meta del sitio (para SEO) ─────────────────────────────────────────────
 export const SITE_META = {
   name: "Fran Framer",
-  /** Aparece en <title> y como brand */
-  brand: "Fran / Framer",
+  /** Aparece en <title> y como brand (navbar lo muestra en mayúsculas) */
+  brand: "Fran Framer",
   /** Slogan principal para meta description (lo que se ve al compartir el link) */
   description:
     "Fran — Filmmaker, editor de video y diseñador digital en Córdoba, Argentina. Creo piezas visuales con eficacia: dirección, grabación, edición y animación.",

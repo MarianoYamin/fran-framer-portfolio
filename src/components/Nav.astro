@@ -15,8 +15,8 @@ const items = [
   { label: "Contacto", href: "#contact" },
 ];
 
-// Separa "Fran" del sufijo "/ Framer" para aplicar estilos distintos
-const [brandMain, brandRest] = SITE_META.brand.split(" / ");
+// Marca completa, todo en el mismo estilo (ej: "FRAN FRAMER")
+const brand = SITE_META.brand;
 ---
 
 <!--
@@ -41,12 +41,7 @@ const [brandMain, brandRest] = SITE_META.brand.split(" / ");
       <span
         class="inline-block w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-white animate-pulse"
       ></span>
-      {brandMain}
-      <span
-        class="text-slate-500 font-mono normal-case tracking-normal text-[9px] sm:text-[11px]"
-      >
-        / {brandRest}
-      </span>
+      {brand}
     </a>
     <span class="w-px h-4 sm:h-5 bg-white/10 mx-0.5 sm:mx-1 shrink-0"></span>
     <ul class="flex items-center shrink-0">
