@@ -173,7 +173,7 @@ export const CONTACT: SiteContact = {
 // el formulario tira error al enviar y Cal.com muestra "perfil no encontrado".
 export const INTEGRATIONS = {
   /** Access key de Web3Forms — registrate gratis en https://web3forms.com/ */
-  web3formsKey: "REEMPLAZAR_CON_TU_ACCESS_KEY_DE_WEB3FORMS",
+  web3formsKey: "11c2fa5b-9992-46e4-ac5d-43b957052d46",
 
   /** Link de Cal.com — acepta URL completa o sólo "usuario/evento".
    *  Ej: "https://cal.com/franframer/30min" o "franframer/30min". */
