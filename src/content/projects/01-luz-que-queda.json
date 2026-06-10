@@ -1,15 +1,15 @@
 {
-  "client": "Mariano Yamin",
-  "poster": "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop",
+  "href": "https://youtu.be/Sv_08KqLMYM?si=SdFx_CQVUPaohk7O",
+  "client": "Torneo de Basquet Libre",
+  "poster": "https://drive.google.com/file/d/1yT5IeOpITbRHIbuyNQIydVIsWt2YLx0k/view?usp=sharing",
   "featured": true,
   "order": 1,
-  "role": "Dirección · DP",
-  "title": "Luz que Queda",
+  "role": "Dirección · Filmación · Postproducción",
+  "title": "LOS SIMULADORES DEL TBL",
   "tags": [
-    "Cortometraje",
-    "35mm"
+    "Cortometraje"
   ],
-  "video": "https://videos.pexels.com/video-files/2022395/2022395-uhd_2560_1440_30fps.mp4",
+  "video": "https://res.cloudinary.com/dhurpqno2/video/upload/v1781096698/TP_3_Hombre_Levitando_sonido_d7mv0c.mp4",
   "year": "2026",
   "category": "Cortometraje"
 }
