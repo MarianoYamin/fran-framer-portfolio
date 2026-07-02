@@ -1,12 +1,15 @@
 {
-  "title": "Flor Estática",
-  "client": "Maison Noir",
-  "year": "2024",
-  "role": "Cinematografía",
-  "tags": ["Pieza de marca"],
-  "category": "Pieza de marca",
+  "href": "https://youtu.be/B0k6ml9FPYk",
+  "client": "Josefina Bellido y Delfina Corrales",
+  "poster": "https://res.cloudinary.com/dhurpqno2/image/upload/v1783031727/miniatura_don_de_vidaruina_pwkunu.jpg",
   "featured": true,
   "order": 2,
-  "poster": "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?w=1200&q=80&auto=format&fit=crop",
-  "video": "https://videos.pexels.com/video-files/4763824/4763824-uhd_2732_1440_25fps.mp4"
+  "role": "Dirección, Grabación, Postproducción",
+  "title": "DON DE VIDA, DON DE RUINA",
+  "tags": [
+    "Cortometraje"
+  ],
+  "video": "https://res.cloudinary.com/dhurpqno2/video/upload/v1783031764/dondevidaruina_mnhe9f.mp4",
+  "year": "2026",
+  "category": "Cortometraje"
 }
