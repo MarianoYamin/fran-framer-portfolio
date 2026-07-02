@@ -1,7 +1,7 @@
 {
   "href": "https://youtu.be/Sv_08KqLMYM",
   "client": "Torneo de Basquet Libre",
-  "poster": "https://i9.ytimg.com/vi_webp/Sv_08KqLMYM/mqdefault.webp?v=69b1e24e&sqp=CLyemdIG&rs=AOn4CLCMFLZ8ErZ99ysRNz3AZz4XVvIPew",
+  "poster": "https://res.cloudinary.com/dhurpqno2/image/upload/v1783031727/los_simuladores_miniatura_xogtsq.jpg",
   "featured": true,
   "order": 1,
   "role": "Dirección · Filmación · Postproducción",
@@ -9,7 +9,7 @@
   "tags": [
     "Cortometraje"
   ],
-  "video": "https://youtu.be/Sv_08KqLMYM",
+  "video": "https://res.cloudinary.com/dhurpqno2/video/upload/v1783031772/simuladores_ys0swb.mp4",
   "year": "2026",
   "category": "Cortometraje"
 }
