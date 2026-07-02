@@ -1,12 +1,15 @@
 {
-  "title": "Aguantar el Pulso",
-  "client": "Atlas Athletic",
-  "year": "2024",
-  "role": "Dirección · Edición",
-  "tags": ["Pieza de marca"],
-  "category": "Pieza de marca",
+  "href": "https://drive.google.com/file/d/1JVOqc3wLqJg33we7sazEVZd3nz_tAcMP/view?usp=drive_link",
+  "client": "Juan Vargas",
+  "poster": "https://res.cloudinary.com/dhurpqno2/image/upload/v1782993711/Captura_de_pantalla_2026-07-02_085926_y0qy7e.png",
   "featured": true,
   "order": 4,
-  "poster": "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600&q=80&auto=format&fit=crop",
-  "video": "https://videos.pexels.com/video-files/4754030/4754030-uhd_2560_1440_25fps.mp4"
+  "role": "Edición",
+  "title": "MOTION GRAPHICS",
+  "tags": [
+    "Video para Youtube"
+  ],
+  "video": "https://drive.google.com/file/d/1JVOqc3wLqJg33we7sazEVZd3nz_tAcMP/view?usp=drive_link",
+  "year": "2025",
+  "category": "Video para YouTube"
 }
