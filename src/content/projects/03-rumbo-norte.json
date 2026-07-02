@@ -1,7 +1,7 @@
 {
   "href": "https://youtu.be/ESbzqSnoFTs",
   "client": "Torneo de Basquet Libre",
-  "poster": "https://i9.ytimg.com/vi_webp/ESbzqSnoFTs/mqdefault.webp?v=6a0dccf9&sqp=COigmdIG&rs=AOn4CLDalurF6wsa1yx2TEjSmAui1Th-fg",
+  "poster": "https://res.cloudinary.com/dhurpqno2/image/upload/v1783031728/MINIATURA_lgtuzd.png",
   "featured": true,
   "order": 3,
   "role": "Dirección · Filmación · Postproducción",
@@ -9,7 +9,7 @@
   "tags": [
     "Cortometraje"
   ],
-  "video": "https://youtu.be/ESbzqSnoFTs",
+  "video": "https://res.cloudinary.com/dhurpqno2/video/upload/v1783031759/vamo_arriba_y21yod.mp4",
   "year": "2026",
   "category": "Cortometraje"
 }
