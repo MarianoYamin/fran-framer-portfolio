@@ -1,12 +1,15 @@
 {
-  "title": "Mar de Cemento",
-  "client": "Hertz / Studio One",
-  "year": "2023",
-  "role": "Cinematografía",
-  "tags": ["Evento deportivo"],
-  "category": "Cobertura de evento deportivo",
+  "href": "https://youtu.be/-Ec-mdknZWo?si=erNrWaZsTCF025cZ",
+  "client": "Qcpique",
+  "poster": "https://res.cloudinary.com/dhurpqno2/image/upload/v1783077600/miniatura_qcpique_hvchrj.jpg",
   "featured": true,
   "order": 6,
-  "poster": "https://images.unsplash.com/photo-1500964757637-c85e8a162699?w=1800&q=80&auto=format&fit=crop",
-  "video": "https://videos.pexels.com/video-files/2103099/2103099-uhd_2560_1440_30fps.mp4"
+  "role": "Grabación · Edición",
+  "title": "Efectos Visuales",
+  "tags": [
+    "VFX"
+  ],
+  "video": "https://res.cloudinary.com/dhurpqno2/video/upload/v1783079118/trailer_qcpique_y4xzx3.mp4",
+  "year": "2025",
+  "category": "Video para YouTube"
 }
