@@ -130,16 +130,22 @@ export const STATS: { value: string; label: string }[] = [
 // ── Datos de contacto (editá estos valores con los reales de Fran) ────────
 export const CONTACT: SiteContact = {
   email: "franframer.creative@gmail.com",
-  phone: "+54 9 388 618 2588",
-  whatsapp: "https://wa.me/5493886182588",
+  phone: "+54 9 388 618 2500",
+  whatsapp: "https://wa.me/5493886182500",
   studio: {
     address1: "Córdoba Capital",
     address2: "5000 Córdoba, Argentina",
     note: "Solo con cita previa",
   },
   social: [
-    { label: "Instagram", href: "https://instagram.com/" },
-    { label: "YouTube", href: "https://youtube.com/" },
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/franframer_?igsh=OWdtZ2VuOXQ1bnh5",
+    },
+    {
+      label: "YouTube",
+      href: "https://youtube.com/@franframer?si=zirsRe3lm6BLSfo4",
+    },
   ],
   // Coordenadas de Córdoba, Argentina (latitud sur · longitud oeste)
   coords: "S 31.4135°&nbsp;&nbsp;O 64.1810°",
