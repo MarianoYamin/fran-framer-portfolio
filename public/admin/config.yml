@@ -72,6 +72,8 @@ collections:
           - "Pieza de marca"
           - "Podcast"
           - "Cobertura de evento deportivo"
+          - "Reel"
+          - "Motion Graphics"
         hint: "Define en qué grupo aparece dentro de /trabajos"
 
       - label: "Etiquetas"

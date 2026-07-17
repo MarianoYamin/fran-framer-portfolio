@@ -55,6 +55,8 @@ export const PROJECT_CATEGORIES: string[] = [
   "Pieza de marca",
   "Podcast",
   "Cobertura de evento deportivo",
+  "Reel",
+  "Motion Graphics",
 ];
 
 // ── Términos cinematográficos para el marquee ─────────────────────────────
