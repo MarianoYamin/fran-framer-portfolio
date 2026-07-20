@@ -4,16 +4,28 @@
  * @modulo     Navbar fija
  * @descripcion Píldora glass centrada arriba con logo + 4 enlaces ancla.
  *              Añade sombra cuando scrollY > 40 (lo controla main.ts).
- * @actualizado 2026-05-13
+ * @actualizado 2026-07-17
  */
 import { SITE_META } from "../data/site";
 
+// El nav se usa en la home y también en /trabajos, pero las secciones
+// (#work, #services…) sólo existen en la home. Fuera de ella hay que
+// prefijar las anclas con "/" para que el navegador vuelva al inicio y
+// recién ahí salte a la sección; si no, el click no hace nada.
+const path = Astro.url.pathname.replace(/\/+$/, "");
+const isHome = path === "";
+const anchor = (hash: string) => (isHome ? hash : `/${hash}`);
+
 const items = [
-  { label: "Trabajo", href: "#work" },
-  { label: "Servicios", href: "#services" },
-  { label: "Sobre mí", href: "#about" },
-  { label: "Contacto", href: "#contact" },
+  { label: "Trabajo", href: anchor("#work") },
+  { label: "Servicios", href: anchor("#services") },
+  { label: "Sobre mí", href: anchor("#about") },
+  { label: "Contacto", href: anchor("#contact") },
 ];
+
+// En la home el logo sube al top de la misma página; fuera de ella vuelve
+// al inicio.
+const brandHref = isHome ? "#top" : "/";
 
 // Marca completa, todo en el mismo estilo (ej: "FRAN FRAMER")
 const brand = SITE_META.brand;
@@ -34,7 +46,7 @@ const brand = SITE_META.brand;
     class="glass rounded-full px-1.5 sm:px-2 py-1.5 sm:py-2 flex items-center gap-0.5 sm:gap-1 whitespace-nowrap transition-all duration-500"
   >
     <a
-      href="#top"
+      href={brandHref}
       data-cursor="link"
       class="px-2.5 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-[13px] tracking-[0.12em] sm:tracking-[0.18em] uppercase font-medium flex items-center gap-1.5 sm:gap-2 shrink-0"
     >
