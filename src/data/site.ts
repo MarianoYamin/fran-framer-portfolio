@@ -132,8 +132,8 @@ export const STATS: { value: string; label: string }[] = [
 // ── Datos de contacto (editá estos valores con los reales de Fran) ────────
 export const CONTACT: SiteContact = {
   email: "franframer.creative@gmail.com",
-  phone: "+54 9 388 618 2500",
-  whatsapp: "https://wa.me/5493886182500",
+  phone: "+54 9 388 610 2508",
+  whatsapp: "https://wa.me/5493886102508",
   studio: {
     address1: "Córdoba Capital",
     address2: "5000 Córdoba, Argentina",
